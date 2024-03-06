@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="../src/frontend/static/css/style.css">
+    <title>News</title>
+</head>
+
+<body>
+    <div class="header-nav pt-4 pb-4 mb-5">
+        <div class="container px-2">
+            <header class="">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-md-3 text-md-left text-center">
+                            <h1 class="logo d-md-flex justify-content-center">News Website</h1>
+                        </div>
+                        <div class="col-12 col-md-6 order-md-2">
+                            <nav class="nav navigator d-flex justify-content-center">
+                                <a class="nav-a" href="section1">Section 1</a>
+                                <a class="nav-a" href="section2">Section 2</a>
+                                <a class="nav-a" href="section3">Section 3</a>
+                                <a class="nav-a" href="section4">Section 4</a>
+                            </nav>
+                        </div>
+                        <div class="col-12 col-md-3 order-md-3 mb-sm-2">
+                            <form class="form-inline search-bar searchForm d-xs-flex justify-content-center">
+                                <button class="btn my-2 my-sm-0 searchBtn" type="button"
+                                    onclick="toggleSearchInput()">Search</button>
+                                <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search..."
+                                    aria-label="Search">
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </header>
+        </div>
+    </div>
+
+    <div class="container text-center mt-5 date-and-time">
+        <div id="world-time"></div>
+        <div id="current-date"></div>
+    </div>
+
+    
+    <h1 class="container mt-5 text-center prase">
+        News for people in a hurry
+    </h1>
+
+    <a href="#">
+
+        <div id="top1" class="container col-12 mt-5">
+            <div class="row">
+                <div class="container col-11 mx-auto pt-5 pb-5">
+                    <div class="row">
+                        <h4 class="titleTop1 pb-3">
+                            No title
+                        </h4>
+                    </div>
+
+                    <div class="row">
+                        <div class="descryptionTop1 pb-3">
+                            No descryption
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="authorAndSourceTop1">
+                            No author And Source
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="dateTop1">
+                            No date
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </a>
+
+    <!-- <div class="container d-flex mt-5">
+        <div class="row col-8">
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName pt-2 pb-2">
+                        EU
+                    </h2>
+                </div>
+                <div class="container">
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <div class="container">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName pt-2 pb-2">
+                        EU
+                    </h2>
+                </div>
+                <div class="container">
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNews">
+                                        Убейте меня sdffffdsffsdfsdfsdfsdf
+                                    </h4>
+                                    <div class="descriptionNews">
+                                        ДАДАДАДАДА
+                                    </div>
+                                    <div class="authorAndSource">
+                                        gg
+                                    </div>
+                                    <div class="dateNews">
+                                        gg
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="row col-4">
+            <div class="container">
+                <div class="row">
+                    <h2 class="trendingBlock pt-2 pb-2">
+                        Trending
+                    </h2>
+                </div>
+
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            Убейте меня sdffffdsffsdfsdfsdfsdf
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            ДАДАДАДАДА
+                        </div>
+                        <button class="mt-3">Читать</button>
+                    </div>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            Убейте меня sdffffdsffsdfsdfsdfsdf
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            ДАДАДАДАДА
+                        </div>
+                        <button class="mt-3">Читать</button>
+                    </div>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            Убейте меня sdffffdsffsdfsdfsdfsdf
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            ДАДАДАДАДА
+                        </div>
+                        <button class="mt-3">Читать</button>
+                    </div>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            Убейте меня sdffffdsffsdfsdfsdfsdf
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            ДАДАДАДАДА
+                        </div>
+                        <button class="mt-3">Читать</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+
+
+
+    <div class="container d-flex flex-column flex-md-row mt-5">
+        <!-- EU блоки -->
+        <div class="col-md-8">
+            <!-- Цикл для каждого блока EU -->
+            <!-- Начало цикла -->
+            <div class="container mb-5">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName NorthAmerica pt-2 pb-2">
+                        North America
+                    </h2>
+                </div>
+                <!-- Примеры новостных блоков EU -->
+                <div class="container">
+                    <!-- Ваш код для EU блока -->
+                    <!-- Начало цикла для каждой новости в EU блоке -->
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsNorthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsNorthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceNorthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsNorthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsNorthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsNorthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceNorthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsNorthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsNorthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsNorthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceNorthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsNorthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsNorthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsNorthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceNorthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsNorthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    
+                    <!-- Конец цикла для каждой новости в EU блоке -->
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName SouthAmerica pt-2 pb-2">
+                        South America
+                    </h2>
+                </div>
+                <!-- Примеры новостных блоков EU -->
+                <div class="container">
+                    <!-- Ваш код для EU блока -->
+                    <!-- Начало цикла для каждой новости в EU блоке -->
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsSouthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsSouthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceSouthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsSouthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsSouthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsSouthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceSouthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsSouthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsSouthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsSouthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceSouthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsSouthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsSouthAmerica">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsSouthAmerica">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceSouthAmerica">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsSouthAmerica">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Конец цикла для каждой новости в EU блоке -->
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName Euarasia pt-2 pb-2">
+                        Euarasia
+                    </h2>
+                </div>
+                <!-- Примеры новостных блоков EU -->
+                <div class="container">
+                    <!-- Ваш код для EU блока -->
+                    <!-- Начало цикла для каждой новости в EU блоке -->
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEuarasia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEuarasia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEuarasia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEuarasia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEuarasia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEuarasia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEuarasia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEuarasia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEuarasia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEuarasia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEuarasia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEuarasia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEuarasia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEuarasia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEuarasia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEuarasia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Конец цикла для каждой новости в EU блоке -->
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName Europe pt-2 pb-2">
+                        Europe
+                    </h2>
+                </div>
+                <!-- Примеры новостных блоков EU -->
+                <div class="container">
+                    <!-- Ваш код для EU блока -->
+                    <!-- Начало цикла для каждой новости в EU блоке -->
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEurope">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEurope">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEurope">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEurope">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEurope">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEurope">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEurope">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEurope">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEurope">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEurope">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEurope">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEurope">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsEurope">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsEurope">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceEurope">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsEurope">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Конец цикла для каждой новости в EU блоке -->
+                </div>
+            </div>
+            <div class="container mb-5">
+                <div class="row d-flex justify-content-center">
+                    <h2 class="regionName Asia pt-2 pb-2">
+                        Asia
+                    </h2>
+                </div>
+                <!-- Примеры новостных блоков EU -->
+                <div class="container">
+                    <!-- Ваш код для EU блока -->
+                    <!-- Начало цикла для каждой новости в EU блоке -->
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsAsia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsAsia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceAsia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsAsia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsAsia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsAsia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceAsia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsAsia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsAsia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsAsia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceAsia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsAsia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <a href="#">
+                        <div class="row d-flex justify-content-center">
+                            <div class="sectionNews pt-4 pb-4">
+                                <div class="container">
+                                    <h4 class="titleNewsAsia">
+                                        No title
+                                    </h4>
+                                    <div class="descriptionNewsAsia">
+                                        No description
+                                    </div>
+                                    <div class="authorAndSourceAsia">
+                                        No author And Source
+                                    </div>
+                                    <div class="dateNewsAsia">
+                                        No date
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    <!-- Конец цикла для каждой новости в EU блоке -->
+                </div>
+            </div>
+            <!-- Конец цикла -->
+        </div>
+
+        
+    
+        <!-- Trending блок -->
+        <div class="col-md-4 mt-4 mt-md-0">
+            <div class="container">
+                <div class="row">
+                    <h2 class="trendingBlock pt-2 pb-2">
+                        Trending
+                    </h2>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            No title
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            No description
+                        </div>
+                        <button class="mt-3">Read</button>
+                    </div>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            No title
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            No description
+                        </div>
+                        <button class="mt-3">Read</button>
+                    </div>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            No title
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            No description
+                        </div>
+                        <button class="mt-3">Read</button>
+                    </div>
+                </div>
+                <div class="cardsNews container mb-3 pb-3">
+                    <img class="imgTrendingNews" src="" alt="">
+                    <div class="container">
+                        <h4 class="titleTrendingNews">
+                            No title
+                        </h4>
+                        <div class="descriptionTrendingNews">
+                            No description
+                        </div>
+                        <button class="mt-3">Read</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+
+
+    <div class="footer">
+        <div class="container pb-2 pt-2 mt-5">
+            Поставьте зачёт
+        </div>
+    </div>
+
+
+
+
+    <script>
+        function toggleSearchInput() {
+            let searchInput = document.querySelector('.search-input');
+            searchInput.style.display = (searchInput.style.display === 'none' || searchInput.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+
+    <script>
+        function updateWorldTime() {
+            const now = new Date();
+            const options = { timeZone: 'UTC', hour: 'numeric', minute: 'numeric', second: 'numeric' };
+            const timeString = now.toLocaleString('en-US', options);
+            document.getElementById('world-time').textContent = timeString;
+        }
+
+        function updateCurrentDate() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const dateString = now.toLocaleDateString('en-US', options);
+            document.getElementById('current-date').textContent = dateString;
+        }
+
+        // Обновляем время и дату каждую секунду
+        setInterval(() => {
+            updateWorldTime();
+            updateCurrentDate();
+        }, 1);
+    </script>
+    <script src="../src/frontend/static/js/app.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

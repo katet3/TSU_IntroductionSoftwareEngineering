@@ -1,0 +1,105 @@
+.logo {
+    color: white;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+}
+
+.header-nav {
+    background-color: #851717;
+}
+
+a {
+    all: inherit;
+    transition: 0.3s;
+    color: black;
+}
+
+a:hover {
+    color: gray;
+    cursor: pointer;
+}
+
+
+
+.search-input {
+    display: none;
+    width: 100%;
+    margin-left: 10px;
+}
+
+.searchForm {
+    display: flex;
+}
+
+.searchBtn {
+    color: white;
+    border: 1px solid white;
+    border-radius: 3px;
+}
+
+.nav-a {
+    display: block;
+    padding: .5rem 1rem;
+    text-decoration: none;
+    transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out;
+}
+
+
+.prase {
+    color: #851717;
+    font-style: italic;
+}
+
+#top1 {
+    background-color: #404040;
+    color: white;
+    border-radius: 10px;
+    transition: 0.1s;
+}
+
+#top1:hover {
+    cursor: pointer;
+    background-color: #282828;
+}
+
+.authorAndSourceTop1 {
+    font-style: italic;
+}
+
+.regionName {
+    color: white;
+    background-color: #841717;
+    text-align: center;
+    width: 91%;
+}
+
+.sectionNews {
+    border: 2px solid rgb(225, 225, 225);
+    border-bottom-width: 1px;
+}
+
+.trendingBlock {
+    text-align: center;
+    color:#841717;
+}
+
+.cardsNews {
+    border: 2px solid rgb(225, 225, 225);
+}
+
+.imgTrendingNews {
+    width: 100%;
+}
+
+.footer {
+    background-color: #841717;
+    text-align: center;
+    color: white;
+}
+
+#categoriesNews {
+    border: 1px solid gray;
+}
