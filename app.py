@@ -5,10 +5,9 @@ app = Flask(__name__)
 
 @app.route('/', methods=['GET'])
 def home():
-    template_path = 'main.html'
-    return render_template(template_path)
+    return render_template('main.html')
 
-@app.route('/section1')
+@app.route('/section1', methods=['GET'])
 def section1():
     return render_template('categories.html')
 
