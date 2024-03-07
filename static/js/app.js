@@ -10,9 +10,12 @@ let key1 = "0949776200554a22badea2df909c83d5";
 let key2 = "3bee589e005540ba8930289586803eb4";
 let key3 = "fd656e75b02c40b3a912063de007bf60";
 let key4 = "0c7ba0613fb545a0831cdfb12a266821";
-let key5 = "9e5ff03296cf4531b21c8119d01b8bf5";
+let key5 = "16bbffbd75004bc6bc50da4630b0d2d3";
+let key6 = "9e5ff03296cf4531b21c8119d01b8bf5";
 
 const globalKey = key5;
+
+
 //для отображения Top Headlines и Top1 news
 let newsDataArr = [];
 
@@ -23,6 +26,11 @@ let newsEurasia = [];
 let newsEurope = [];
 let newsAsia = [];
 
+let newsBusiness = [];
+let newsScience = [];
+let newsTechnology = [];
+
+
 // trending news - top-4 - main page 
 const TOP_HEADLINES = `https://newsapi.org/v2/top-headlines?country=us&pageSize=20&apiKey=${globalKey}`;
 
@@ -32,6 +40,10 @@ const SOUTH_AMERICA_NEWS = createRequest(globalKey)[3];
 const EURASIA_NEWS = createRequest(globalKey)[2];
 const EUROPE_NEWS = createRequest(globalKey)[1];
 const ASIA_NEWS = createRequest(globalKey)[0];
+
+const Business = `https://newsapi.org/v2/top-headlines?category=business&apiKey=${globalKey}`;
+const Science = `https://newsapi.org/v2/top-headlines?category=science&apiKey=${globalKey}`;
+const Technology = `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${globalKey}`;
 
 
 
@@ -45,111 +57,11 @@ window.onload = function () {
     checkNewsAsia();
 };
 
-scienceBtn.addEventListener("click",function(){
-    fetchScienceNews();
-});
-
-businessBtn.addEventListener("click",function(){
-    fetchBusinessNews();
-});
-
-technologyBtn.addEventListener("click",function(){
-    fetchTechnologyNews();
-});
-
-sportsBtn.addEventListener("click",function(){
-    fetchSportsNews();
-});
 
 
-const fetchScienceNews = async () => {
-    const response = await fetch(SCIENCE_NEWS+API_KEY);
-    newsDataArr = [];
-    if(response.status >=200 && response.status < 300) {
-        const myJson = await response.json();
-        console.log(myJson);
-        newsDataArr = myJson.articles;
-        console.log(myJson.articles)
-    } else {
-        // handle errors
-        console.log(response.status, response.statusText);
-        newsdetails.innerHTML = "<h5>No data found.</h5>"
-        return;
-    }
 
-    displayNews();
-}
-
-const fetchBusinessNews = async () => {
-    const response = await fetch(BUSINESS_NEWS+API_KEY);
-    newsDataArr = [];
-    if(response.status >=200 && response.status < 300) {
-        const myJson = await response.json();
-        newsDataArr = myJson.articles;
-        console.log(myJson.articles)
-    } else {
-        // handle errors
-        console.log(response.status, response.statusText);
-        newsdetails.innerHTML = "<h5>No data found.</h5>"
-        return;
-    }
-
-    displayNews();
-}
-
-const fetchTechnologyNews = async () => {
-    const response = await fetch(TECHNOLOGY_NEWS+API_KEY);
-    newsDataArr = [];
-    if(response.status >=200 && response.status < 300) {
-        const myJson = await response.json();
-        newsDataArr = myJson.articles;
-    } else {
-        // handle errors
-        console.log(response.status, response.statusText);
-        newsdetails.innerHTML = "<h5>No data found.</h5>"
-        return;
-    }
-
-    displayNews();
-}
-
-const fetchSportsNews = async () => {
-    const response = await fetch(SPORTS_NEWS+API_KEY);
-    newsDataArr = [];
-    if(response.status >=200 && response.status < 300) {
-        const myJson = await response.json();
-        newsDataArr = myJson.articles;
-        console.log(myJson.articles)
-    } else {
-        // handle errors
-        console.log(response.status, response.statusText);
-        newsdetails.innerHTML = "<h5>No data found.</h5>"
-        return;
-    }
-
-    displayNews();
-}
-
-function checkNewsAsia() {
-    let titles = document.querySelectorAll('.titleNewsAsia');
-    count = 0;
-    titles.forEach(title => {
-        if (title.textContent.trim() === 'No title') {
-            let section = title.closest('.sectionNews');
-            if (section) {
-                section.style.display = 'none';
-                count++;
-            }
-        }
-    });
-    if (count == 4) {
-        document.querySelector('.Asia').style.display = "none";
-    }
-    console.log(count);
-
-}
-
-
+//     fetchQueryNews();
+// });
 
 
 /* ---- Получение данных из backend + нарисовать их ---- */
@@ -246,7 +158,21 @@ const fetchRandomCountryNews = async () => {
     showAsiaNews(newsAsia);
 }
 
+const fetchCategoryNews = async () => {
+    newsBusiness = [];
+    newsScience = [];
+    newsTechnology = [];
 
+    const ResponseNorthAmerica = await fetch(startBusiness);
+    const ResponseSouthAmerica = await fetch(startScience);
+    const ResponseEurasia = await fetch(startTechnology);
+
+
+
+
+
+    showTopHeadlines(newsDataArr);
+}
 
 
 
@@ -269,12 +195,15 @@ function showTopHeadlines(articles) {
         else
             document.querySelector('.authorAndSourceTop1').innerHTML = "";
         document.querySelector('.dateTop1').innerHTML = article.publishedAt ? article.publishedAt.split('T')[0] : "";
-
+        if (article.url) {
+            document.querySelector('.linkToTop').setAttribute('href', article.url);
+        }
 
 
         const img = document.querySelectorAll('.imgTrendingNews');
         const titleElements = document.querySelectorAll('.titleTrendingNews');
         const descriptionElements = document.querySelectorAll('.descriptionTrendingNews');
+        const links = document.querySelectorAll('.TrendingRead');
 
         let j = 0;
         for (let i = 1; i < articles.length; i++) {
@@ -287,11 +216,17 @@ function showTopHeadlines(articles) {
                     if (articles[i].description) {
                         descriptionElements[j].innerHTML = articles[i].description;
                     }
+                    if (articles[i].src) {
+                        links[j].innerHTML = articles[i].src;
+                    }
                     if (articles[i].urlToImage != null) {
                         img[j].src = articles[i].urlToImage;
                     } else {
                         // Если изображения нет, скрываем соответствующий элемент
                         img[j].style.display = "none";
+                    }
+                    if (articles[i].url) {
+                        links[j].setAttribute('href', articles[i].url);
                     }
                     j++; // Увеличиваем индекс для перехода к следующей статье
                     if (j == 4)
@@ -318,6 +253,7 @@ function showNorthAmericaNews(articles) {
         const descriptionElements = document.querySelectorAll('.descriptionNewsNorthAmerica');
         const authorAndSourceElements = document.querySelectorAll('.authorAndSourceNorthAmerica');
         const dateElements = document.querySelectorAll('.dateNewsNorthAmerica');
+        const links = document.querySelectorAll('.LinkNorthAmerica');
 
         let j = 0;
         for (let i = 0; i < articles.length; i++) {
@@ -341,6 +277,9 @@ function showNorthAmericaNews(articles) {
                         authorAndSourceElements[j].innerHTML = "Author: " + articles[i].author;
                     } else {
                         authorAndSourceElements[j].style.display = "none";
+                    }
+                    if (articles[i].url) {
+                        links[j].setAttribute('href', articles[i].url);
                     }
 
                     if (articles[i].publishedAt) {
@@ -372,6 +311,7 @@ function showSouthAmericaNews(articles) {
         const descriptionElements = document.querySelectorAll('.descriptionNewsSouthAmerica');
         const authorAndSourceElements = document.querySelectorAll('.authorAndSourceSouthAmerica');
         const dateElements = document.querySelectorAll('.dateNewsSouthAmerica');
+        const links = document.querySelectorAll('.LinksSouthAmerica');
 
         let j = 0;
         for (let i = 0; i < articles.length; i++) {
@@ -395,6 +335,9 @@ function showSouthAmericaNews(articles) {
                         authorAndSourceElements[j].innerHTML = "Author: " + articles[i].author;
                     } else {
                         authorAndSourceElements[j].style.display = "none";
+                    }
+                    if (articles[i].url) {
+                        links[j].setAttribute('href', articles[i].url);
                     }
 
                     if (articles[i].publishedAt) {
@@ -426,6 +369,7 @@ function showEurasiaNews(articles) {
         const descriptionElements = document.querySelectorAll('.descriptionNewsEuarasia');
         const authorAndSourceElements = document.querySelectorAll('.authorAndSourceEuarasia');
         const dateElements = document.querySelectorAll('.dateNewsEuarasia');
+        const links = document.querySelectorAll('.LinksEurasia');
 
         let j = 0;
         for (let i = 0; i < articles.length; i++) {
@@ -449,6 +393,9 @@ function showEurasiaNews(articles) {
                         authorAndSourceElements[j].innerHTML = "Author: " + articles[i].author;
                     } else {
                         authorAndSourceElements[j].style.display = "none";
+                    }
+                    if (articles[i].url) {
+                        links[j].setAttribute('href', articles[i].url);
                     }
 
                     if (articles[i].publishedAt) {
@@ -480,6 +427,7 @@ function showEuropeNews(articles) {
         const descriptionElements = document.querySelectorAll('.descriptionNewsEurope');
         const authorAndSourceElements = document.querySelectorAll('.authorAndSourceEurope');
         const dateElements = document.querySelectorAll('.dateNewsEurope');
+        const links = document.querySelectorAll('.LinksEurope');
 
         let j = 0;
         for (let i = 0; i < articles.length; i++) {
@@ -503,6 +451,9 @@ function showEuropeNews(articles) {
                         authorAndSourceElements[j].innerHTML = "Author: " + articles[i].author;
                     } else {
                         authorAndSourceElements[j].style.display = "none";
+                    }
+                    if (articles[i].url) {
+                        links[j].setAttribute('href', articles[i].url);
                     }
 
                     if (articles[i].publishedAt) {
@@ -534,6 +485,7 @@ function showAsiaNews(articles) {
         const descriptionElements = document.querySelectorAll('.descriptionNewsAsia');
         const authorAndSourceElements = document.querySelectorAll('.authorAndSourceAsia');
         const dateElements = document.querySelectorAll('.dateNewsAsia');
+        const links = document.querySelectorAll('.LinksAsia');
 
         let j = 0;
         for (let i = 0; i < articles.length; i++) {
@@ -557,6 +509,9 @@ function showAsiaNews(articles) {
                         authorAndSourceElements[j].innerHTML = "Author: " + articles[i].author;
                     } else {
                         authorAndSourceElements[j].style.display = "none";
+                    }
+                    if (articles[i].url) {
+                        links[j].setAttribute('href', articles[i].url);
                     }
 
                     if (articles[i].publishedAt) {
@@ -613,7 +568,7 @@ function getRandomCountry() {
 }
 
 // функция генерирует запрос со странами, описанами в функции getRandomCountry()
-function createRequest(globalKey) {
+function createRequest() {
     const RandomCountries = getRandomCountry();
     // console.log(RandomCountries);
     let startRequest = "https://newsapi.org/v2/top-headlines?";
@@ -644,5 +599,26 @@ function createRequest(globalKey) {
     requests.push(reqSouthAmerica);
 
     return requests;
+}
+
+
+/* Функция для проверки пустоты новсти по стране */ 
+function checkNewsAsia() {
+    let titles = document.querySelectorAll('.titleNewsAsia');
+    count = 0;
+    titles.forEach(title => {
+        if (title.textContent.trim() === 'No title') {
+            let section = title.closest('.sectionNews');
+            if (section) {
+                section.style.display = 'none';
+                count++;
+            }
+        }
+    });
+    if (count == 4) {
+        document.querySelector('.Asia').style.display = "none";
+    }
+    console.log(count);
+
 }
 
