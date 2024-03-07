@@ -12,8 +12,10 @@ let key3 = "fd656e75b02c40b3a912063de007bf60";
 let key4 = "0c7ba0613fb545a0831cdfb12a266821";
 let key5 = "16bbffbd75004bc6bc50da4630b0d2d3";
 let key6 = "9e5ff03296cf4531b21c8119d01b8bf5";
+let key7 = "f02bc5a35b3b4eb988b1e6aaa5c436a6";
+let key8 = "c040f1e7f9264d829f6344b9db4ac55e";
 
-const globalKey = key5;
+const globalKey = key1;
 
 
 //для отображения Top Headlines и Top1 news
@@ -41,7 +43,7 @@ const EURASIA_NEWS = createRequest(globalKey)[2];
 const EUROPE_NEWS = createRequest(globalKey)[1];
 const ASIA_NEWS = createRequest(globalKey)[0];
 
-const Business = `https://newsapi.org/v2/top-headlines?category=business&apiKey=${globalKey}`;
+const Business = `https://newsapi.org/v2/top-headlines?category=business&language=en&apiKey=${globalKey}`;
 const Science = `https://newsapi.org/v2/top-headlines?category=science&apiKey=${globalKey}`;
 const Technology = `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${globalKey}`;
 
@@ -55,6 +57,9 @@ window.onload = function () {
     fetchHeadlines();
     fetchRandomCountryNews();
     checkNewsAsia();
+    fetchCategoryNews();
+    fetchScienseNews();
+    fetchTechnologyNews();
 };
 
 
@@ -160,21 +165,59 @@ const fetchRandomCountryNews = async () => {
 
 const fetchCategoryNews = async () => {
     newsBusiness = [];
-    newsScience = [];
-    newsTechnology = [];
-
-    const ResponseNorthAmerica = await fetch(startBusiness);
-    const ResponseSouthAmerica = await fetch(startScience);
-    const ResponseEurasia = await fetch(startTechnology);
 
 
+    const ResponseBusiness = await fetch(Business);
 
+    if (ResponseBusiness.status >= 200 && ResponseBusiness.status < 300) {
+        const JsonBusiness = await ResponseBusiness.json();
+        newsBusiness = JsonBusiness.articles;
+        showBusinessNews(newsBusiness);
+        console.log(newsBusiness);
+    } else {
+        console.log(ResponseBusiness.status, ResponseBusiness.statusText);
+        return;
+    }
 
-
-    showTopHeadlines(newsDataArr);
 }
 
+const fetchScienseNews = async () => 
+{
+    newsScience = [];
 
+
+    const ResponseScience = await fetch(Science);
+
+
+    if (ResponseScience.status >= 200 && ResponseScience.status < 300) {
+        const JsonScience = await ResponseScience.json();
+        newsScience = JsonScience.articles;
+        showScienceNews(newsScience);
+        console.log("hi");
+        console.log(newsScience);
+    } else {
+        console.log(ResponseScience.status, ResponseScience.statusText);
+        return;
+    }
+}
+
+const fetchTechnologyNews = async () => 
+{
+    newsTechnology = [];
+    
+    const ResponseTechnology = await fetch(Technology);
+
+    if (ResponseTechnology.status >= 200 && ResponseTechnology.status < 300) {
+        const JsonNorthAmerica = await ResponseTechnology.json();
+        newsTechnology = JsonNorthAmerica.articles;
+        showTechnologyNews(newsTechnology);
+        console.log("tech");
+        console.log(newsTechnology);
+    } else {
+        console.log(ResponseTechnology.status, ResponseTechnology.statusText);
+        return;
+    }
+}
 
 /* ---- Рисование Новостей в HTML ----  */
 
@@ -537,6 +580,167 @@ function showAsiaNews(articles) {
     }
 }
 
+function showBusinessNews(articles) {
+    if (articles.length) {
+
+        const titleElements = document.querySelectorAll('.titleBusinessNews');
+        const descriptionElements = document.querySelectorAll('.descryptionBusinessNews');
+        const authorAndSourceElements = document.querySelectorAll('.authorAndSourceBussinessNews');
+        const dateElements = document.querySelectorAll('.dateBussinessNews');
+        const imgs = document.querySelectorAll('.imgBusiness');
+        const links = document.querySelectorAll('.linkBusiness');
+
+        for (let i = 0; i < articles.length; i++) {
+            const article = articles[i];
+            if (article && article.title) {
+                const j = i % 4; // Определение индекса для текущего элемента
+
+                titleElements[j].innerHTML = article.title;
+                if (article.description) {
+                    descriptionElements[j].innerHTML = article.description;
+                }
+
+                if (article.author && article.source) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author + ' - ' + article.source.name;
+                } else if (article.source) {
+                    authorAndSourceElements[j].innerHTML = article.source.name;
+                } else if (article.author) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author;
+                } else {
+                    authorAndSourceElements[j].style.display = "none";
+                }
+
+                if (article.url) {
+                    links[j].setAttribute('href', article.url);
+                }
+
+                if (article.publishedAt) {
+                    dateElements[j].innerHTML = article.publishedAt.split('T')[0];
+                }
+
+                if (article.urlToImage) {
+                    imgs[j].src = article.urlToImage;
+                } else {
+                    imgs[j].style.display = "none"; // Скрыть изображение, если его нет
+                }
+            } else {
+                // Пропускаем текущую итерацию, если не хватает информации о новости
+                continue;
+            }
+        }
+    } else {
+        // Если массив статей пуст, выводим сообщение об отсутствии данных
+        console.log("Нет данных для отображения");
+    }
+}
+
+function showScienceNews(articles) {
+    if (articles.length) {
+
+        const titleElements = document.querySelectorAll('.titleScienceNews');
+        const descriptionElements = document.querySelectorAll('.descryptionScienceNews');
+        const authorAndSourceElements = document.querySelectorAll('.authorAndSourceScienceNews');
+        const dateElements = document.querySelectorAll('.dateScienceNews');
+        const imgs = document.querySelectorAll('.imgScience');
+        const links = document.querySelectorAll('.linkScience');
+
+        for (let i = 0; i < articles.length; i++) {
+            const article = articles[i];
+            if (article && article.title) {
+                const j = i % 4; // Определение индекса для текущего элемента
+
+                titleElements[j].innerHTML = article.title;
+                if (article.description) {
+                    descriptionElements[j].innerHTML = article.description;
+                }
+
+                if (article.author && article.source) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author + ' - ' + article.source.name;
+                } else if (article.source) {
+                    authorAndSourceElements[j].innerHTML = article.source.name;
+                } else if (article.author) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author;
+                } else {
+                    authorAndSourceElements[j].style.display = "none";
+                }
+
+                if (article.url) {
+                    links[j].setAttribute('href', article.url);
+                }
+
+                if (article.publishedAt) {
+                    dateElements[j].innerHTML = article.publishedAt.split('T')[0];
+                }
+
+                if (article.urlToImage) {
+                    imgs[j].src = article.urlToImage;
+                } else {
+                    imgs[j].style.display = "none"; // Скрыть изображение, если его нет
+                }
+            } else {
+                // Пропускаем текущую итерацию, если не хватает информации о новости
+                continue;
+            }
+        }
+    } else {
+        // Если массив статей пуст, выводим сообщение об отсутствии данных
+        console.log("Нет данных для отображения");
+    }
+}
+
+function showTechnologyNews(articles) {
+    if (articles.length) {
+
+        const titleElements = document.querySelectorAll('.titleTechnologyNews');
+        const descriptionElements = document.querySelectorAll('.descryptionTechnologyNews');
+        const authorAndSourceElements = document.querySelectorAll('.authorAndSourceTechnologyNews');
+        const dateElements = document.querySelectorAll('.dateTechnologyNews');
+        const imgs = document.querySelectorAll('.imgTechnology');
+        const links = document.querySelectorAll('.linkTechnology');
+
+        for (let i = 0; i < articles.length; i++) {
+            const article = articles[i];
+            if (article && article.title) {
+                const j = i % 4; // Определение индекса для текущего элемента
+
+                titleElements[j].innerHTML = article.title;
+                if (article.description) {
+                    descriptionElements[j].innerHTML = article.description;
+                }
+
+                if (article.author && article.source) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author + ' - ' + article.source.name;
+                } else if (article.source) {
+                    authorAndSourceElements[j].innerHTML = article.source.name;
+                } else if (article.author) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author;
+                } else {
+                    authorAndSourceElements[j].style.display = "none";
+                }
+
+                if (article.url) {
+                    links[j].setAttribute('href', article.url);
+                }
+
+                if (article.publishedAt) {
+                    dateElements[j].innerHTML = article.publishedAt.split('T')[0];
+                }
+
+                if (article.urlToImage) {
+                    imgs[j].src = article.urlToImage;
+                } else {
+                    imgs[j].style.display = "none"; // Скрыть изображение, если его нет
+                }
+            } else {
+                // Пропускаем текущую итерацию, если не хватает информации о новости
+                continue;
+            }
+        }
+    } else {
+        // Если массив статей пуст, выводим сообщение об отсутствии данных
+        console.log("Нет данных для отображения");
+    }
+}
 
 
 
