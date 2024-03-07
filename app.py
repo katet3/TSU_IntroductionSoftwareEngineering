@@ -7,9 +7,21 @@ app = Flask(__name__)
 def home():
     return render_template('main.html')
 
-@app.route('/section1', methods=['GET'])
-def section1():
+@app.route('/business', methods=['GET'])
+def business():
     return render_template('categories.html')
+
+@app.route('/sport', methods=['GET'])
+def sport():
+    return render_template('categoriesSport.html')
+
+@app.route('/science', methods=['GET'])
+def science():
+    return render_template('categoriesScience.html')
+
+@app.route('/technology', methods=['GET'])
+def technology():
+    return render_template('categoriesTechnology.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9999)

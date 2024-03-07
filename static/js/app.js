@@ -1,8 +1,18 @@
+/* кнопочки sections1-2-3-4 */
+const businessBtn = document.getElementById("business");
+const sportsBtn = document.getElementById("sport");
+const scienceBtn = document.getElementById("science");
+const technologyBtn = document.getElementById("technology");
+const searchBtn = document.getElementById("searchBtn");
+
 /* переменные */
 let key1 = "0949776200554a22badea2df909c83d5";
 let key2 = "3bee589e005540ba8930289586803eb4";
 let key3 = "fd656e75b02c40b3a912063de007bf60";
-let key4 = "0c7ba0613fb545a0831cdfb12a266821"
+let key4 = "0c7ba0613fb545a0831cdfb12a266821";
+let key5 = "9e5ff03296cf4531b21c8119d01b8bf5";
+
+const globalKey = key5;
 //для отображения Top Headlines и Top1 news
 let newsDataArr = [];
 
@@ -14,14 +24,14 @@ let newsEurope = [];
 let newsAsia = [];
 
 // trending news - top-4 - main page 
-const TOP_HEADLINES = "https://newsapi.org/v2/top-headlines?country=us&pageSize=20&apiKey=0c7ba0613fb545a0831cdfb12a266821";
+const TOP_HEADLINES = `https://newsapi.org/v2/top-headlines?country=us&pageSize=20&apiKey=${globalKey}`;
 
 // random genetate news from country
-const NORTH_AMERICA_NEWS = "https://newsapi.org/v2/top-headlines?country=us&country=ca&apiKey=0c7ba0613fb545a0831cdfb12a266821";
-const SOUTH_AMERICA_NEWS = createRequest()[3];
-const EURASIA_NEWS = createRequest()[2];
-const EUROPE_NEWS = createRequest()[1];
-const ASIA_NEWS = createRequest()[0];
+const NORTH_AMERICA_NEWS = `https://newsapi.org/v2/top-headlines?country=us&country=ca&apiKey=${globalKey}`;
+const SOUTH_AMERICA_NEWS = createRequest(globalKey)[3];
+const EURASIA_NEWS = createRequest(globalKey)[2];
+const EUROPE_NEWS = createRequest(globalKey)[1];
+const ASIA_NEWS = createRequest(globalKey)[0];
 
 
 
@@ -34,6 +44,91 @@ window.onload = function () {
     fetchRandomCountryNews();
     checkNewsAsia();
 };
+
+scienceBtn.addEventListener("click",function(){
+    fetchScienceNews();
+});
+
+businessBtn.addEventListener("click",function(){
+    fetchBusinessNews();
+});
+
+technologyBtn.addEventListener("click",function(){
+    fetchTechnologyNews();
+});
+
+sportsBtn.addEventListener("click",function(){
+    fetchSportsNews();
+});
+
+
+const fetchScienceNews = async () => {
+    const response = await fetch(SCIENCE_NEWS+API_KEY);
+    newsDataArr = [];
+    if(response.status >=200 && response.status < 300) {
+        const myJson = await response.json();
+        console.log(myJson);
+        newsDataArr = myJson.articles;
+        console.log(myJson.articles)
+    } else {
+        // handle errors
+        console.log(response.status, response.statusText);
+        newsdetails.innerHTML = "<h5>No data found.</h5>"
+        return;
+    }
+
+    displayNews();
+}
+
+const fetchBusinessNews = async () => {
+    const response = await fetch(BUSINESS_NEWS+API_KEY);
+    newsDataArr = [];
+    if(response.status >=200 && response.status < 300) {
+        const myJson = await response.json();
+        newsDataArr = myJson.articles;
+        console.log(myJson.articles)
+    } else {
+        // handle errors
+        console.log(response.status, response.statusText);
+        newsdetails.innerHTML = "<h5>No data found.</h5>"
+        return;
+    }
+
+    displayNews();
+}
+
+const fetchTechnologyNews = async () => {
+    const response = await fetch(TECHNOLOGY_NEWS+API_KEY);
+    newsDataArr = [];
+    if(response.status >=200 && response.status < 300) {
+        const myJson = await response.json();
+        newsDataArr = myJson.articles;
+    } else {
+        // handle errors
+        console.log(response.status, response.statusText);
+        newsdetails.innerHTML = "<h5>No data found.</h5>"
+        return;
+    }
+
+    displayNews();
+}
+
+const fetchSportsNews = async () => {
+    const response = await fetch(SPORTS_NEWS+API_KEY);
+    newsDataArr = [];
+    if(response.status >=200 && response.status < 300) {
+        const myJson = await response.json();
+        newsDataArr = myJson.articles;
+        console.log(myJson.articles)
+    } else {
+        // handle errors
+        console.log(response.status, response.statusText);
+        newsdetails.innerHTML = "<h5>No data found.</h5>"
+        return;
+    }
+
+    displayNews();
+}
 
 function checkNewsAsia() {
     let titles = document.querySelectorAll('.titleNewsAsia');
@@ -518,11 +613,11 @@ function getRandomCountry() {
 }
 
 // функция генерирует запрос со странами, описанами в функции getRandomCountry()
-function createRequest() {
+function createRequest(globalKey) {
     const RandomCountries = getRandomCountry();
     // console.log(RandomCountries);
     let startRequest = "https://newsapi.org/v2/top-headlines?";
-    let endRequest = "apiKey=0c7ba0613fb545a0831cdfb12a266821";
+    let endRequest = `apiKey=${globalKey}`;
 
     let reqSouthAmerica = startRequest;
     let reqEurasia = startRequest;
