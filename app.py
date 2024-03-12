@@ -11,8 +11,8 @@ def home():
 def business():
     return render_template('categories.html')
 
-@app.route('/sport', methods=['GET'])
-def sport():
+@app.route('/more', methods=['GET'])
+def more():
     return render_template('categoriesSport.html')
 
 @app.route('/science', methods=['GET'])
