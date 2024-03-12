@@ -60,11 +60,12 @@ const Technology = `https://newsapi.org/v2/top-headlines?category=technology&api
 window.onload = function () {
     fetchHeadlines();
     fetchRandomCountryNews();
+    checkNewsAsia();
     fetchCategoryNews();
     fetchScienseNews();
     fetchTechnologyNews();
     sortRequest(globalKey);
-    // checkNewsAsia();
+
     // checkNewsEuarasia();
     // checkNewsNorthAmerica();
     // checkNewsSouthAmerica();
@@ -986,7 +987,7 @@ function createRequest() {
 /* Функция для проверки пустоты новсти по стране */ 
 function checkNewsAsia() {
     let titles = document.querySelectorAll('.titleNewsAsia');
-    let count = 0;
+    count = 0;
     titles.forEach(title => {
         if (title.textContent.trim() === "No title") {
             let section = title.closest('.sectionNews');
@@ -1000,7 +1001,6 @@ function checkNewsAsia() {
         document.querySelector('.Asia').style.display = "none";
     }
     console.log(count);
-
 }
 
 function checkNewsNorthAmerica() {
