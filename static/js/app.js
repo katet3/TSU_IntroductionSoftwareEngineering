@@ -3,7 +3,8 @@ const businessBtn = document.getElementById("business");
 const sportsBtn = document.getElementById("sport");
 const scienceBtn = document.getElementById("science");
 const technologyBtn = document.getElementById("technology");
-const searchBtn = document.getElementById("searchBtn");
+
+
 
 /* переменные */
 let key1 = "0949776200554a22badea2df909c83d5";
@@ -14,8 +15,14 @@ let key5 = "16bbffbd75004bc6bc50da4630b0d2d3";
 let key6 = "9e5ff03296cf4531b21c8119d01b8bf5";
 let key7 = "f02bc5a35b3b4eb988b1e6aaa5c436a6";
 let key8 = "c040f1e7f9264d829f6344b9db4ac55e";
+let key9 = "71a0499c8fe64a23a49536bae4bac9ca";
+let key10 = "3eb7d05ce6e64699be1b363e05bee013";
+let key11 = "0bbeef83ff7f428fb9c06f03562f0c2a";
+let key12 = "d001becc9cfb452081163ddcf5d52aef";
+let key13 = "c6f11d573a1c4ff68f56e40c141f1e21";
+let key14 = "c8b760081b79445ab19ca08699d8c1a1";
 
-const globalKey = key1;
+const globalKey = key12;
 
 
 //для отображения Top Headlines и Top1 news
@@ -48,9 +55,6 @@ const Science = `https://newsapi.org/v2/top-headlines?category=science&apiKey=${
 const Technology = `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${globalKey}`;
 
 
-
-
-
 /* Загрузка данных на страницу MAIN */
 
 window.onload = function () {
@@ -60,16 +64,20 @@ window.onload = function () {
     fetchCategoryNews();
     fetchScienseNews();
     fetchTechnologyNews();
+    sortRequest(globalKey);
+
+    // checkNewsEuarasia();
+    // checkNewsNorthAmerica();
+    // checkNewsSouthAmerica();
+    // checkNewsEurope();
 };
 
 
 
 
-//     fetchQueryNews();
-// });
-
 
 /* ---- Получение данных из backend + нарисовать их ---- */
+
 
 const fetchHeadlines = async () => {
     newsDataArr = [];
@@ -106,7 +114,7 @@ const fetchRandomCountryNews = async () => {
         const JsonNorthAmerica = await ResponseNorthAmerica.json();
         newsNorthAmerica = JsonNorthAmerica.articles;
 
-        console.log(newsNorthAmerica);
+        // console.log(newsNorthAmerica);
     } else {
         console.log(ResponseNorthAmerica.status, ResponseNorthAmerica.statusText);
         return;
@@ -117,7 +125,7 @@ const fetchRandomCountryNews = async () => {
         const JsonSouthAmerica = await ResponseSouthAmerica.json();
         newsSouthAmerica = JsonSouthAmerica.articles;
 
-        console.log(newsSouthAmerica);
+        // console.log(newsSouthAmerica);
     } else {
         console.log(ResponseSouthAmerica.status, ResponseSouthAmerica.statusText);
         return;
@@ -128,7 +136,7 @@ const fetchRandomCountryNews = async () => {
         const JsonEurasia = await ResponseEurasia.json();
         newsEurasia = JsonEurasia.articles;
 
-        console.log(newsEurasia);
+        // console.log(newsEurasia);
     } else {
         console.log(ResponseEurasia.status, ResponseEurasia.statusText);
         return;
@@ -139,7 +147,7 @@ const fetchRandomCountryNews = async () => {
         const JsonEurope = await ResponseEuropa.json();
         newsEurope = JsonEurope.articles;
 
-        console.log(newsEurope);
+        // console.log(newsEurope);
     } else {
         console.log(ResponseEuropa.status, ResponseEuropa.statusText);
         return;
@@ -150,7 +158,7 @@ const fetchRandomCountryNews = async () => {
         const JsonAsia = await ResponseAsia.json();
         newsAsia = JsonAsia.articles;
 
-        console.log(newsAsia);
+        // console.log(newsAsia);
     } else {
         console.log(ResponseAsia.status, ResponseAsia.statusText);
         return;
@@ -173,7 +181,7 @@ const fetchCategoryNews = async () => {
         const JsonBusiness = await ResponseBusiness.json();
         newsBusiness = JsonBusiness.articles;
         showBusinessNews(newsBusiness);
-        console.log(newsBusiness);
+        // console.log(newsBusiness);
     } else {
         console.log(ResponseBusiness.status, ResponseBusiness.statusText);
         return;
@@ -193,8 +201,8 @@ const fetchScienseNews = async () =>
         const JsonScience = await ResponseScience.json();
         newsScience = JsonScience.articles;
         showScienceNews(newsScience);
-        console.log("hi");
-        console.log(newsScience);
+        // console.log("hi");
+        // console.log(newsScience);
     } else {
         console.log(ResponseScience.status, ResponseScience.statusText);
         return;
@@ -211,8 +219,8 @@ const fetchTechnologyNews = async () =>
         const JsonNorthAmerica = await ResponseTechnology.json();
         newsTechnology = JsonNorthAmerica.articles;
         showTechnologyNews(newsTechnology);
-        console.log("tech");
-        console.log(newsTechnology);
+        // console.log("tech");
+        // console.log(newsTechnology);
     } else {
         console.log(ResponseTechnology.status, ResponseTechnology.statusText);
         return;
@@ -742,6 +750,176 @@ function showTechnologyNews(articles) {
     }
 }
 
+function showSortNews(articles) {
+    if (articles.length) {
+
+        const titleElements = document.querySelectorAll('.titleSortNews');
+        const descriptionElements = document.querySelectorAll('.descryptionSortNews');
+        const authorAndSourceElements = document.querySelectorAll('.authorAndSourceSortNews');
+        const dateElements = document.querySelectorAll('.dateSortNews');
+        const imgs = document.querySelectorAll('.imgSortNews');
+        const links = document.querySelectorAll('.linkSortNews');
+
+        for (let i = 0; i < articles.length; i++) {
+            const article = articles[i];
+            if (article && article.title) {
+                const j = i % 4; // Определение индекса для текущего элемента
+
+                titleElements[j].innerHTML = article.title;
+                if (article.description) {
+                    descriptionElements[j].innerHTML = article.description;
+                }
+
+                if (article.author && article.source) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author + ' - ' + article.source.name;
+                } else if (article.source) {
+                    authorAndSourceElements[j].innerHTML = article.source.name;
+                } else if (article.author) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author;
+                } else {
+                    authorAndSourceElements[j].style.display = "none";
+                }
+
+                if (article.url) {
+                    links[j].setAttribute('href', article.url);
+                }
+
+                if (article.publishedAt) {
+                    dateElements[j].innerHTML = article.publishedAt.split('T')[0];
+                }
+
+                if (article.urlToImage) {
+                    imgs[j].src = article.urlToImage;
+                } else {
+                    imgs[j].style.display = "none"; // Скрыть изображение, если его нет
+                }
+            } else {
+                // Пропускаем текущую итерацию, если не хватает информации о новости
+                continue;
+            }
+        }
+    } else {
+        // Если массив статей пуст, выводим сообщение об отсутствии данных
+        console.log("Нет данных для отображения");
+    }
+}
+
+
+
+/* Функция сортировки новостей */
+function sortRequest(APIKEY) {
+    let startReq = "https://newsapi.org/v2/everything?q=a&";
+    const endReq = "&apiKey=" + APIKEY;
+
+    const noveltyBtn = document.getElementById('noveltyBtn');
+    const popularityBtn = document.getElementById('popularityBtn');
+    const enBtn = document.getElementById('enBtn');
+    const frBtn = document.getElementById('frBtn');
+    const deBtn = document.getElementById('deBtn');
+
+    const params = {
+        popularity: false,
+        novelty: false,
+        en: false,
+        fr: false,
+        de: false
+    };
+
+    noveltyBtn.addEventListener('click', () => {
+        params.novelty = !params.novelty;
+        updateRequest();
+    });
+
+    popularityBtn.addEventListener('click', () => {
+        params.popularity = !params.popularity;
+        updateRequest();
+    });
+
+    enBtn.addEventListener('click', () => {
+        params.en = !params.en;
+        updateRequest();
+    });
+
+    frBtn.addEventListener('click', () => {
+        params.fr = !params.fr;
+        updateRequest();
+    });
+
+    deBtn.addEventListener('click', () => {
+        params.de = !params.de;
+        updateRequest();
+    });
+
+    function updateRequest() {
+        let requestParams = [];
+        let showNews = false; // Переменная для определения, нужно ли показывать блоки с новостями
+    
+        if (params.popularity) {
+            requestParams.push("sortBy=popularity");
+            showNews = true; // Если хотя бы одна кнопка нажата, то показываем блоки с новостями
+        }
+        if (params.novelty) {
+            requestParams.push("sortBy=novelty");
+            showNews = true;
+        }
+        if (params.en) {
+            requestParams.push("language=en");
+            showNews = true;
+        }
+        if (params.fr) {
+            requestParams.push("language=fr");
+            showNews = true;
+        }
+        if (params.de) {
+            requestParams.push("language=de");
+            showNews = true;
+        }
+    
+        if (showNews) {
+            // Если хотя бы одна кнопка нажата, показываем блоки с новостями
+            document.querySelectorAll('.linkSortNews').forEach((elem) => {
+                elem.style.display = 'block';
+            });
+        } else {
+            // Если ни одна кнопка не нажата, скрываем блоки с новостями
+            document.querySelectorAll('.linkSortNews').forEach((elem) => {
+                elem.style.display = 'none';
+            });
+        }
+    
+        if (requestParams.length > 0) {
+            startReq = "https://newsapi.org/v2/everything?q=a&" + requestParams.join("&");
+        } else {
+            startReq = "https://newsapi.org/v2/everything?q=a&";
+        }
+    
+        startReq += endReq;
+        console.log(startReq);
+    
+    
+        const fetchSortNews = async () => {
+            newsDataArr = [];
+            const response = await fetch(startReq);
+    
+            if (response.status >= 200 && response.status < 300) {
+                const myJson = await response.json();
+                newsDataArr = myJson.articles;
+                console.log(newsDataArr);
+                showSortNews(newsDataArr);
+                // console.log(newsDataArr);
+            } else {
+                console.log(response.status, response.statusText);
+                return;
+            }
+    
+            // showSortNews(newsDataArr);
+        }
+    
+        fetchSortNews();
+    }
+    
+}
+
 
 
 /* --- Функции для создания запросов */
@@ -811,7 +989,7 @@ function checkNewsAsia() {
     let titles = document.querySelectorAll('.titleNewsAsia');
     count = 0;
     titles.forEach(title => {
-        if (title.textContent.trim() === 'No title') {
+        if (title.textContent.trim() === "No title") {
             let section = title.closest('.sectionNews');
             if (section) {
                 section.style.display = 'none';
@@ -823,6 +1001,175 @@ function checkNewsAsia() {
         document.querySelector('.Asia').style.display = "none";
     }
     console.log(count);
-
 }
 
+function checkNewsNorthAmerica() {
+    let titles = document.querySelectorAll('.titleNewsNorthAmerica');
+    let count = 0;
+    titles.forEach(title => {
+        if (title.textContent.trim() === 'No title') {
+            let section = title.closest('.sectionNews');
+            if (section) {
+                section.style.display = 'none';
+                count++;
+            }
+        }
+    });
+    if (count == 4) {
+        document.querySelector('.NorthAmerica').style.display = "none";
+    }
+    console.log(count);
+}
+
+function checkNewsSouthAmerica() {
+    let titles = document.querySelectorAll('.titleNewsSouthAmerica');
+    let count = 0;
+    titles.forEach(title => {
+        if (title.textContent.trim() === 'No title') {
+            let section = title.closest('.sectionNews');
+            if (section) {
+                section.style.display = 'none';
+                count++;
+            }
+        }
+    });
+    if (count == 4) {
+        document.querySelector('.SouthAmerica').style.display = "none";
+    }
+    console.log(count);
+}
+
+function checkNewsEuarasia() {
+    let titles = document.querySelectorAll('.titleNewsEuarasia');
+    let count = 0;
+    titles.forEach(title => {
+        if (title.textContent.trim() === 'No title') {
+            let section = title.closest('.sectionNews');
+            if (section) {
+                section.style.display = 'none';
+                count++;
+            }
+        }
+    });
+    if (count == 4) {
+        document.querySelector('.Euarasia').style.display = "none";
+    }
+    console.log(count);
+}
+
+function checkNewsEurope() {
+    let titles = document.querySelectorAll('.titleNewsEurope');
+    let count = 0;
+    titles.forEach(title => {
+        if (title.textContent.trim() === 'No title') {
+            let section = title.closest('.sectionNews');
+            if (section) {
+                section.style.display = 'none';
+                count++;
+            }
+        }
+    });
+    if (count == 4) {
+        document.querySelector('.Europe').style.display = "none";
+    }
+    console.log(count);
+}
+
+const searchBtn = document.querySelector('.searchBtn');
+const newsQuery = document.querySelector('.search-input');
+const queryNews = document.querySelector('.QueryNews');
+const allNews = document.querySelectorAll('.Allnews');
+const SEARCH_NEWS = "https://newsapi.org/v2/everything?q=";
+
+
+searchBtn.addEventListener('click', function () {
+    fetchQueryNews();
+});
+
+document.getElementById('returnBtn').addEventListener('click', function () {
+    // Показать блоки Allnews и скрыть блок QueryNews
+    queryNews.style.display = 'none';
+    allNews.forEach(function (element) {
+        element.style.display = 'block';
+    });
+});
+
+const fetchQueryNews = async () => {
+    // Проверяем, что поле ввода не пустое
+    if (newsQuery.value.trim() === '') {
+        return; // Если поле пустое, просто выходим из функции
+    }
+    const response = await fetch(SEARCH_NEWS + encodeURIComponent(newsQuery.value) + "&apiKey=" + globalKey);
+    newsDataArr = [];
+    if (response.status >= 200 && response.status < 300) {
+        const myJson = await response.json();
+        newsDataArr = myJson.articles;
+        showSearchNews(newsDataArr);
+        console.log(newsDataArr);
+    } else {
+        //error handle
+        console.log(response.status, response.statusText);
+        return;
+    }
+    // После загрузки новостей показать блок QueryNews и скрыть блоки Allnews
+    queryNews.style.display = 'block';
+    allNews.forEach(function (element) {
+        element.style.display = 'none';
+    });
+};
+
+function showSearchNews(articles) {
+    if (articles.length) {
+
+        const titleElements = document.querySelectorAll('.titleSearchNews');
+        const descriptionElements = document.querySelectorAll('.descryptionSearchNews');
+        const authorAndSourceElements = document.querySelectorAll('.authorAndSourceSearchNews');
+        const dateElements = document.querySelectorAll('.dateSearchNews');
+        const imgs = document.querySelectorAll('.imgSearch');
+        const links = document.querySelectorAll('.linkSearch');
+
+        for (let i = 0; i < articles.length; i++) {
+            const article = articles[i];
+            if (article && article.title) {
+                const j = i % 4; // Определение индекса для текущего элемента
+
+                titleElements[j].innerHTML = article.title;
+                if (article.description) {
+                    descriptionElements[j].innerHTML = article.description;
+                }
+
+                if (article.author && article.source) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author + ' - ' + article.source.name;
+                } else if (article.source) {
+                    authorAndSourceElements[j].innerHTML = article.source.name;
+                } else if (article.author) {
+                    authorAndSourceElements[j].innerHTML = "Author: " + article.author;
+                } else {
+                    authorAndSourceElements[j].style.display = "none";
+                }
+
+                if (article.url) {
+                    links[j].setAttribute('href', article.url);
+                }
+
+                if (article.publishedAt) {
+                    dateElements[j].innerHTML = article.publishedAt.split('T')[0];
+                }
+
+
+                if (article.urlToImage) {
+                    imgs[j].src = article.urlToImage;
+                } else {
+                    imgs[j].style.display = "none"; // Скрыть изображение, если его нет
+                }
+            } else {
+                // Пропускаем текущую итерацию, если не хватает информации о новости
+                continue;
+            }
+        }
+    } else {
+        // Если массив статей пуст, выводим сообщение об отсутствии данных
+        console.log("Нет данных для отображения");
+    }
+
+}

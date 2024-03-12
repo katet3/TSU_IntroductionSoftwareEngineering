@@ -13,7 +13,7 @@ def business():
 
 @app.route('/more', methods=['GET'])
 def more():
-    return render_template('categoriesSport.html')
+    return render_template('categoriesMore.html')
 
 @app.route('/science', methods=['GET'])
 def science():
@@ -22,6 +22,10 @@ def science():
 @app.route('/technology', methods=['GET'])
 def technology():
     return render_template('categoriesTechnology.html')
+
+# @app.route('/search', methods=['GET'])
+# def search():
+#     return render_template('search.html')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=9999)

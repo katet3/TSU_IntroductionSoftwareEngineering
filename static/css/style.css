@@ -25,7 +25,6 @@ a:hover {
 
 
 .search-input {
-    display: none;
     width: 100%;
     margin-left: 10px;
 }
@@ -102,4 +101,8 @@ a:hover {
 
 #categoriesNews {
     border: 1px solid gray;
+}
+
+.linkSortNews {
+    display: none;
 }
