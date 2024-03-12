@@ -10,6 +10,13 @@
     <title>News</title>
 </head>
 
+<style>
+    .QueryNews {
+        display: none;
+        /* Изначально скрыть блок QueryNews */
+    }
+</style>
+
 <body>
     <div class="header-nav pt-4 pb-4 mb-5">
         <div class="container px-2">
@@ -22,7 +29,7 @@
                         <div class="col-12 col-md-6 order-md-2">
                             <nav class="nav navigator d-flex justify-content-center">
                                 <a class="nav-a" id="business" href="business">Business</a>
-                                
+
                                 <a class="nav-a" id="science" href="science">Science</a>
                                 <a class="nav-a" id="technology" href="technology">Technology</a>
                                 <a class="nav-a" id="more" href="more">More</a>
@@ -30,10 +37,9 @@
                         </div>
                         <div class="col-12 col-md-3 order-md-3 mb-sm-2">
                             <form class="form-inline search-bar searchForm d-xs-flex justify-content-center">
-                                <button class="btn my-2 my-sm-0 searchBtn" type="button"
-                                    onclick="toggleSearchInput()">Search</button>
-                                <input class="form-control mr-sm-2 search-input" type="search" placeholder="Search..."
-                                    aria-label="Search">
+                                <button class="btn my-2 my-sm-0 searchBtn" type="button">Search</button>
+                                <input id="newsQuery" class="form-control mr-sm-2 search-input" type="search"
+                                    placeholder="Search..." aria-label="Search">
                             </form>
                         </div>
                     </div>
@@ -52,7 +58,7 @@
         News for people in a hurry
     </h1>
 
-    <a class="linkToTop" href="#">
+    <a class="Allnews linkToTop" href="#">
 
         <div id="top1" class="container col-12 mt-5">
             <div class="row">
@@ -335,7 +341,7 @@
         <div class="col-md-8">
             <!-- Цикл для каждого блока EU -->
             <!-- Начало цикла -->
-            <div class="container mb-5">
+            <div class="container Allnews  mb-5">
                 <div class="row d-flex justify-content-center">
                     <h2 class="regionName NorthAmerica pt-2 pb-2">
                         North America
@@ -431,7 +437,7 @@
                     <!-- Конец цикла для каждой новости в EU блоке -->
                 </div>
             </div>
-            <div class="container mb-5">
+            <div class="container Allnews mb-5">
                 <div class="row d-flex justify-content-center">
                     <h2 class="regionName SouthAmerica pt-2 pb-2">
                         South America
@@ -526,7 +532,7 @@
                     <!-- Конец цикла для каждой новости в EU блоке -->
                 </div>
             </div>
-            <div class="container mb-5">
+            <div class="container Allnews mb-5">
                 <div class="row d-flex justify-content-center">
                     <h2 class="regionName Euarasia pt-2 pb-2">
                         Euarasia
@@ -621,7 +627,7 @@
                     <!-- Конец цикла для каждой новости в EU блоке -->
                 </div>
             </div>
-            <div class="container mb-5">
+            <div class="container Allnews mb-5">
                 <div class="row d-flex justify-content-center">
                     <h2 class="regionName Europe pt-2 pb-2">
                         Europe
@@ -715,7 +721,7 @@
                     <!-- Конец цикла для каждой новости в EU блоке -->
                 </div>
             </div>
-            <div class="container mb-5">
+            <div class="container Allnews mb-5">
                 <div class="row d-flex justify-content-center">
                     <h2 class="regionName Asia pt-2 pb-2">
                         Asia
@@ -815,7 +821,7 @@
 
 
         <!-- Trending блок -->
-        <div class="col-md-4 mt-4 mt-md-0">
+        <div class="col-md-4 mt-4 mt-md-0 Allnews">
             <div class="container">
                 <div class="row">
                     <h2 class="trendingBlock pt-2 pb-2">
@@ -874,6 +880,133 @@
         </div>
     </div>
 
+    <div class="QueryNews container">
+        <h3 class="text-center">Here are the newsw related to your query.</h3>
+        <a class="linkSearch" href="#">
+            <div id="categoriesNews" class="container col-12 mt-5 d-flex">
+                <div class="row flex-grow-1">
+                    <div class="conrainer col-8 mx-auto pt-5 pb-5">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="titleSearchNews pb-3">
+                                    No title
+                                </h4>
+                                <div class="descryptionSearchNews pb-3">
+                                    No descryption
+                                </div>
+                                <div class="authorAndSourceSearchNews">
+                                    no author and Source
+                                </div>
+                                <div class="dateSearchNews">
+                                    No date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-none d-md-block align-self-start">
+                    <!-- Картинка здесь -->
+                    <img src="" style="height: 250px;" alt="Placeholder Image" class="img-fluid w-100 imgSearch" style="object-fit: cover;">
+                </div>
+            </div>
+        </a>
+
+        <a class="linkSearch" href="#">
+            <div id="categoriesNews" class="container col-12 mt-5 d-flex">
+                <div class="row flex-grow-1">
+                    <div class="conrainer col-8 mx-auto pt-5 pb-5">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="titleSearchNews pb-3">
+                                    No title
+                                </h4>
+                                <div class="descryptionSearchNews pb-3">
+                                    No descryption
+                                </div>
+                                <div class="authorAndSourceSearchNews">
+                                    no author and Source
+                                </div>
+                                <div class="dateSearchNews">
+                                    No date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-none d-md-block align-self-start">
+                    <!-- Картинка здесь -->
+                    <img src="" style="height: 250px;" alt="Placeholder Image" class="img-fluid w-100 imgSearch" style="object-fit: cover;">
+                </div>
+            </div>
+        </a>
+        
+
+        <a class="linkSearch" href="#">
+            <div id="categoriesNews" class="container col-12 mt-5 d-flex">
+                <div class="row flex-grow-1">
+                    <div class="conrainer col-8 mx-auto pt-5 pb-5">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="titleSearchNews pb-3">
+                                    No title
+                                </h4>
+                                <div class="descryptionSearchNews pb-3">
+                                    No descryption
+                                </div>
+                                <div class="authorAndSourceSearchNews">
+                                    no author and Source
+                                </div>
+                                <div class="dateSearchNews">
+                                    No date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-none d-md-block align-self-start">
+                    <!-- Картинка здесь -->
+                    <img src="" style="height: 250px;" alt="Placeholder Image" class="img-fluid w-100 imgSearch" style="object-fit: cover;">
+                </div>
+            </div>
+        </a>
+
+        <a class="linkSearch" href="#">
+            <div id="categoriesNews" class="container col-12 mt-5 d-flex">
+                <div class="row flex-grow-1">
+                    <div class="conrainer col-8 mx-auto pt-5 pb-5">
+                        <div class="row">
+                            <div class="col">
+                                <h4 class="titleSearchNews pb-3">
+                                    No title
+                                </h4>
+                                <div class="descryptionSearchNews pb-3">
+                                    No descryption
+                                </div>
+                                <div class="authorAndSourceSearchNews">
+                                    no author and Source
+                                </div>
+                                <div class="dateSearchNews">
+                                    No date
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 d-none d-md-block align-self-start">
+                    <!-- Картинка здесь -->
+                    <img src="" style="height: 250px;" alt="Placeholder Image" class="img-fluid w-100 imgSearch" style="object-fit: cover;">
+                </div>
+            </div>
+        </a>
+    
+
+        <div class="d-flex justify-content-center">
+            <button id="returnBtn" class="mt-5">
+                Go back
+            </button>
+        </div>
+    </div>
+
 
 
 
@@ -886,12 +1019,6 @@
 
 
 
-    <script>
-        function toggleSearchInput() {
-            let searchInput = document.querySelector('.search-input');
-            searchInput.style.display = (searchInput.style.display === 'none' || searchInput.style.display === '') ? 'block' : 'none';
-        }
-    </script>
 
     <script>
         function updateWorldTime() {
@@ -913,11 +1040,18 @@
             updateWorldTime();
             updateCurrentDate();
         }, 1);
+
+
     </script>
+    
+
+
+    
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 </body>
 
 </html>
