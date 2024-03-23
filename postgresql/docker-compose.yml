@@ -1,0 +1,16 @@
+# Запуск docker-compose up -d
+# Проверка psql -h localhost -p 5432 -U postgres -W
+
+version: '3.8'
+services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: 12345678
+      POSTGRES_DB: news
+      POSTGRES_USER: root
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./init_db.sql:/docker-entrypoint-initdb.d/init_db.sql
+
