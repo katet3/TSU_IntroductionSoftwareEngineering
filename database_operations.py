@@ -5,8 +5,8 @@ from psycopg2 import sql
 # Смотреть в докер файле
 def connect_db():
     return psycopg2.connect(
-        dbname="news",  # Имя базы данных
-        user="root",  # Имя пользователя
+        dbname="postgres",  # Имя базы данных
+        user="postgres",  # Имя пользователя
         password="12345678",  # Пароль
         host="localhost",  # Адрес сервера, localhost для локального сервера
         port="5432"  # Порт подключения

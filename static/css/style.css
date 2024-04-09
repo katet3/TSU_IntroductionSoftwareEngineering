@@ -106,3 +106,29 @@ a:hover {
 .linkSortNews {
     display: none;
 }
+.testBlock {
+    border: 1px solid gray;
+}
+
+.btnTest {
+    background-color: #841717;
+    color: white;
+}
+
+.option {
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: black;
+}
+
+.btnAnswer {
+    all:inherit;
+    cursor: pointer;
+}
+
+
+.btnAnswer {
+    border: none;
+    background: none;
+    cursor: pointer;
+}
