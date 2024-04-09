@@ -6,7 +6,8 @@ const technologyBtn = document.getElementById("technology");
 
 
 
-/* переменные */
+/* переменные globalKey*/
+
 let key1 = "0949776200554a22badea2df909c83d5";
 let key2 = "3bee589e005540ba8930289586803eb4";
 let key3 = "fd656e75b02c40b3a912063de007bf60";
@@ -22,13 +23,14 @@ let key12 = "d001becc9cfb452081163ddcf5d52aef";
 let key13 = "c6f11d573a1c4ff68f56e40c141f1e21";
 let key14 = "c8b760081b79445ab19ca08699d8c1a1";
 
-const globalKey = key12;
+const globalKey = key2;
 
 
 //для отображения Top Headlines и Top1 news
 let newsDataArr = [];
 
-//для отображения новостей по странам 
+//переменные для отображения новостей по странам 
+
 let newsNorthAmerica = [];
 let newsSouthAmerica = [];
 let newsEurasia = [];
@@ -38,6 +40,8 @@ let newsAsia = [];
 let newsBusiness = [];
 let newsScience = [];
 let newsTechnology = [];
+
+let newsEverything = [];
 
 
 // trending news - top-4 - main page 
@@ -54,24 +58,209 @@ const Business = `https://newsapi.org/v2/top-headlines?category=business&languag
 const Science = `https://newsapi.org/v2/top-headlines?category=science&apiKey=${globalKey}`;
 const Technology = `https://newsapi.org/v2/top-headlines?category=technology&apiKey=${globalKey}`;
 
+const EVERYTHING = `https://newsapi.org/v2/everything?q=a&pageSize=50&apiKey=${globalKey}`;
+
+
+
+
 
 /* Загрузка данных на страницу MAIN */
 
 window.onload = function () {
-    fetchHeadlines();
-    fetchRandomCountryNews();
-    checkNewsAsia();
-    fetchCategoryNews();
-    fetchScienseNews();
-    fetchTechnologyNews();
-    sortRequest(globalKey);
-
+    // fetchHeadlines();
+    // fetchRandomCountryNews();
+    // checkNewsAsia();
+    // fetchNotExistUserPOST();
+    // fetchEverythingNewsPUT();
+    // fetchExistUserPOST();
+    // parserFromQAnswer(button);
+    // fetchCategoryNews();
+    // fetchScienseNews();
+    // fetchTechnologyNews();
+    // sortRequest(globalKey);
+    pageInit();
     // checkNewsEuarasia();
     // checkNewsNorthAmerica();
     // checkNewsSouthAmerica();
     // checkNewsEurope();
 };
 
+
+
+
+
+function removeInvalidCharacters(data) {
+    // Удаляем недопустимые символы из строки и заменяем ковычки ’ и ‘ на обычные ковычки '
+    return data.replace(/[’‘\r\n]/g, '').replace(/’|‘/g, "'").replace(/\r|\n/g, ' ');
+}
+
+const fetchEverythingNewsPUT = async () => {
+    try {
+        // Получение новостей из NEWS API
+        const response = await fetch(EVERYTHING);
+
+        if (response.status >= 200 && response.status < 300) {
+            const myJson = await response.json();
+            const newsEverything = myJson.articles.map(article => ({
+                source: article.source,
+                author: article.author,
+                title: removeInvalidCharacters(article.title),
+                description: removeInvalidCharacters(article.description),
+                url: article.url,
+                urlToImage: article.urlToImage,
+                publishedAt: article.publishedAt,
+                content: removeInvalidCharacters(article.content)
+            }));
+            // console.log("EverythingNews");
+            // console.log(newsEverything);
+
+            // Получение значения куки sessionId
+            const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
+            // Отправляем данные на backend
+            const requestOptions = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sessionId: sessionId,
+                    answers: [
+                        { number: 1, description: 'Answer 1' },
+                        { number: 2, description: 'Answer 2' },
+                        // Добавьте остальные ответы по аналогии
+                    ],
+                    articles: newsEverything
+                })
+            };
+
+            const backendResponse = await fetch('/put-user', requestOptions);
+            if (backendResponse.ok) {
+                console.log("PUT USER");
+                const responseData = await backendResponse.json();
+
+                console.log('Data successfully sent to the backend');
+                console.log(`Your token: "${responseData.token}", news:`, responseData.news);
+            } else {
+                console.log('Error sending data to the backend');
+            }
+        } else {
+            console.log(response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+const fetchNotExistUserPOST = async () => {
+    try {
+        const response = await fetch(EVERYTHING);
+
+        if (response.status >= 200 && response.status < 300) {
+            const myJson = await response.json();
+            const newsEverything = myJson.articles.map(article => ({
+                source: article.source,
+                author: article.author,
+                title: removeInvalidCharacters(article.title),
+                description: removeInvalidCharacters(article.description),
+                url: article.url,
+                urlToImage: article.urlToImage,
+                publishedAt: article.publishedAt,
+                content: removeInvalidCharacters(article.content)
+            }));
+
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    articles: newsEverything,
+                    answers: [
+                        { number: 1, description: 'Answer 1' },
+                        { number: 2, description: 'Answer 2' },
+                        // Добавьте остальные ответы по аналогии
+                    ]
+                })
+            };
+
+            const backendResponse = await fetch('/not-exist-user', requestOptions);
+            if (backendResponse.ok) {
+                console.log("POST NOT EXIST USER");
+                const responseData = await backendResponse.json();
+                console.log('Data successfully sent to the backend');
+                console.log(`Your token: "${responseData.token}", news:`, responseData.news);
+                console.log(`YoUr SeSsIoN iD: "${responseData.sessionId}"`);
+                const expirationDate = new Date();
+                expirationDate.setFullYear(expirationDate.getFullYear() + 10);
+                document.cookie = `token=${responseData.token}; =${expirationDate.toUTCString()}; path=/`;
+            } else {
+                console.error('Error sending data to the backend:', backendResponse.status, backendResponse.statusText);
+            }
+        } else {
+            console.error(`Error fetching data: ${response.status} - ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+const fetchExistUserPOST = async () => {
+    try {
+        // Получение новостей из NEWS API
+        const newsResponse = await fetch(EVERYTHING);
+
+        if (newsResponse.ok) {
+            const newsJson = await newsResponse.json();
+            const newsEverything = newsJson.articles.map(article => ({
+                source: article.source,
+                author: article.author,
+                title: removeInvalidCharacters(article.title),
+                description: removeInvalidCharacters(article.description),
+                url: article.url,
+                urlToImage: article.urlToImage,
+                publishedAt: article.publishedAt,
+                content: removeInvalidCharacters(article.content)
+            }));
+
+            // Получение значения куки sessionId
+            const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
+
+            // Теперь отправляем данные на другой backend
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sessionId: sessionId,
+                    answers: [
+                        { number: 1, description: 'Answer 1' },
+                        { number: 2, description: 'Answer 2' },
+                        // Добавьте остальные ответы по аналогии
+                    ],
+                    articles: newsEverything
+                })
+            };
+
+            const backendResponse = await fetch('/exist-user', requestOptions);
+            if (backendResponse.ok) {
+                console.log("POST EXIST USER");
+                const responseData = await backendResponse.json();
+                console.log('Data successfully sent to the backend');
+                console.log(`Your token: "${responseData.token}", news:`, responseData.news);
+            } else {
+                console.error('Error sending data to the backend:', backendResponse.status, backendResponse.statusText);
+            }
+        } else {
+            console.error(`Error fetching news data: ${newsResponse.status} - ${newsResponse.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 
 
 
@@ -189,8 +378,7 @@ const fetchCategoryNews = async () => {
 
 }
 
-const fetchScienseNews = async () => 
-{
+const fetchScienseNews = async () => {
     newsScience = [];
 
 
@@ -209,10 +397,9 @@ const fetchScienseNews = async () =>
     }
 }
 
-const fetchTechnologyNews = async () => 
-{
+const fetchTechnologyNews = async () => {
     newsTechnology = [];
-    
+
     const ResponseTechnology = await fetch(Technology);
 
     if (ResponseTechnology.status >= 200 && ResponseTechnology.status < 300) {
@@ -853,7 +1040,7 @@ function sortRequest(APIKEY) {
     function updateRequest() {
         let requestParams = [];
         let showNews = false; // Переменная для определения, нужно ли показывать блоки с новостями
-    
+
         if (params.popularity) {
             requestParams.push("sortBy=popularity");
             showNews = true; // Если хотя бы одна кнопка нажата, то показываем блоки с новостями
@@ -874,7 +1061,7 @@ function sortRequest(APIKEY) {
             requestParams.push("language=de");
             showNews = true;
         }
-    
+
         if (showNews) {
             // Если хотя бы одна кнопка нажата, показываем блоки с новостями
             document.querySelectorAll('.linkSortNews').forEach((elem) => {
@@ -886,21 +1073,21 @@ function sortRequest(APIKEY) {
                 elem.style.display = 'none';
             });
         }
-    
+
         if (requestParams.length > 0) {
             startReq = "https://newsapi.org/v2/everything?q=a&" + requestParams.join("&");
         } else {
             startReq = "https://newsapi.org/v2/everything?q=a&";
         }
-    
+
         startReq += endReq;
         console.log(startReq);
-    
-    
+
+
         const fetchSortNews = async () => {
             newsDataArr = [];
             const response = await fetch(startReq);
-    
+
             if (response.status >= 200 && response.status < 300) {
                 const myJson = await response.json();
                 newsDataArr = myJson.articles;
@@ -911,13 +1098,13 @@ function sortRequest(APIKEY) {
                 console.log(response.status, response.statusText);
                 return;
             }
-    
+
             // showSortNews(newsDataArr);
         }
-    
+
         fetchSortNews();
     }
-    
+
 }
 
 
@@ -984,7 +1171,7 @@ function createRequest() {
 }
 
 
-/* Функция для проверки пустоты новсти по стране */ 
+/* Функция для проверки пустоты новсти по стране */
 function checkNewsAsia() {
     let titles = document.querySelectorAll('.titleNewsAsia');
     count = 0;
@@ -1173,3 +1360,88 @@ function showSearchNews(articles) {
     }
 
 }
+
+function parserFromQAnswer(button) {
+    var optionCard = button.closest('.option'); // Находим родительскую карточку опции
+    var buttons = optionCard.querySelectorAll('.btnAnswer'); // Находим все кнопки в этой карточке
+
+    // Сначала сбрасываем цвет фона у всех карточек опций
+    var allOptionCards = document.querySelectorAll('.option');
+    allOptionCards.forEach(function (card) {
+        card.style.backgroundColor = '';
+        card.style.color = '';
+    });
+
+    // Устанавливаем красный цвет фона только для текущей карточки опции
+    optionCard.style.backgroundColor = '#841717';
+    optionCard.style.color = "white";
+
+}
+
+function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(';').shift();
+}
+
+function pageInit() {
+    // Проверяем наличие куки в браузере
+    const token = getCookie('token');
+    const hasTokenCookie = token !== undefined;
+    console.log(token);
+
+    // Находим элементы на странице
+    const noCookieDiv = document.getElementById('noCookie');
+    const yesCookieDiv = document.getElementById('yesCookie');
+    const TakeTest = document.getElementById('taketest');
+    const showINews = document.getElementById('showINews');
+
+    // Отображаем или скрываем блоки на основе наличия куки
+    if (hasTokenCookie) {
+        yesCookieDiv.style.display = 'block';
+        noCookieDiv.style.display = 'none';
+        if (showINews) {
+            showINews.addEventListener('click', () => {
+                fetchExistUserPOST();
+            });
+        }
+    } else {
+        yesCookieDiv.style.display = 'none';
+        noCookieDiv.style.display = 'block';
+
+        // Добавляем обработчики для кнопок
+        if (TakeTest) {
+            TakeTest.addEventListener('click', () => {
+                console.log("дед умер");
+                fetchNotExistUserPOST();
+                console.log("дед умер");
+                // Здесь должен быть код для parserFromQAnswer, но button не определен
+                // parserFromQAnswer(button);
+            });
+        } else {
+            console.error('Элемент с ID taketest не найден.');
+        }
+    }
+
+    // // Добавляем обработчики для кнопок
+    // if (TakeTest) {
+    //     TakeTest.addEventListener('click', () => {
+    //         console.log("дед умер");
+    //         fetchNotExistUserPOST();
+    //         console.log("дед умер");
+    //         // Здесь должен быть код для parserFromQAnswer, но button не определен
+    //         // parserFromQAnswer(button);
+    //     });
+    // } else {
+    //     console.error('Элемент с ID taketest не найден.');
+    // }
+
+    // if (showINews) {
+    //     showINews.addEventListener('click', () => {
+    //         fetchExistUserPOST();
+    //     });
+    // }
+}
+
+
+
