@@ -5,10 +5,11 @@ import os
 import uuid
 from flask_cors import CORS
 import psycopg2
-from psycopg2 import sql
 import docker
 import subprocess
+from word2vec import personal_news, get_user_interests
 from datetime import datetime, timedelta
+import json
 
 
 app = Flask(__name__)
@@ -38,12 +39,14 @@ def connect_db():
 
 # Функция для вставки данных в таблицу
 def insert_data(token, data):
-    query = sql.SQL("INSERT INTO jwt_tokens (token, data) VALUES (%s, to_jsonb(%s::json));")
+    json_data = json.dumps(data)
+    # Формирование запроса
+    query = sql.SQL("INSERT INTO jwt_tokens (token, data) VALUES (%s, %s::jsonb);")
     conn = None
     try:
         conn = connect_db()
         cur = conn.cursor()
-        cur.execute(query, (token, data))
+        cur.execute(query, (token, json_data))
         conn.commit()
         cur.close()
         print("Data inserted successfully")
@@ -74,12 +77,13 @@ def delete_data(token):
 
 # Функция для обновления данных в таблице
 def update_data(token, new_data):
-    query = sql.SQL("UPDATE jwt_tokens SET data = %s WHERE token = %s;")
+    json_data = json.dumps(new_data)
+    query = sql.SQL("UPDATE jwt_tokens SET data = %s::jsonb WHERE token = %s;")
     conn = None
     try:
         conn = connect_db()
         cur = conn.cursor()
-        cur.execute(query, (new_data, token))
+        cur.execute(query, (json_data, token))
         conn.commit()
         cur.close()
         print("Data updated successfully")
@@ -112,20 +116,24 @@ def technology():
 
 @app.route('/put-user', methods=['PUT'])
 def put_user():
-    
     try:
         data = request.json
         articles = data.get('articles', [])
-        
-        # print(data)
+        token = data.get('sessionId', [])
+        answers = data.get('answers', [])
 
-        # Генерация куки
-        session_id = data.get('sessionId')
+        # print(token)
+        # print(articles)
+
+        update_data(token, answers)
+        
+        readyNews = personal_news(token, articles)
+        # print(readyNews)
 
         # Возврат тех же новостей и куки в ответе
         response_data = {
-            "token": session_id,
-            "news": articles
+            "token": token,
+            "news": readyNews
         }
 
         return jsonify(response_data), 200
@@ -134,30 +142,36 @@ def put_user():
 
 
 @app.route('/not-exist-user', methods=['POST'])
-def not_exist_user():
-
-    
+def not_exist_user(): 
     try:
         data = request.json
+        # print(data)
         articles = data.get('articles', [])
+        answers = data.get('answers', [])
+        # print(answers)
         
         # Генерация куки
         session_id = str(uuid.uuid4())
 
-        json_data = '{"user": "user1", "roles": ["admin", "user"]}'
-        insert_data(session_id, json_data)
+        # json_data = '{"user": "user1", "roles": ["admin", "user"]}'
+        insert_data(session_id, answers)
+        # print(session_id)
 
+        # Word2Vek
+        readyNews = personal_news(session_id, articles)
+        # print("pizda")
+        # print(readyNews)
         # Возврат тех же новостей и куки в ответе
         response_data = {
             "token": session_id,
-            "news": articles
+            "news": readyNews
         }
 
          # Создаем объект ответа
         response = make_response(jsonify(response_data))
         # Устанавливаем куки, которая истекает через год
         expires = datetime.now() + timedelta(days=365)
-        response.set_cookie('token', value=session_id, expires=expires, httponly=True)
+        response.set_cookie('token', value=session_id, expires=expires, httponly=False)
 
         return response
         return jsonify(response_data), 200
@@ -170,14 +184,16 @@ def exist_user():
     try:
         data = request.json
         articles = data.get('articles', [])
-        
-        # Генерация куки
-        session_id = "Взять в базе"
+        token = data.get('sessionId', [])
+        # print(token)
+
+        readyNews = personal_news(token, articles)
+        # print(readyNews)
 
         # Возврат тех же новостей и куки в ответе
         response_data = {
-            "token": session_id,
-            "news": articles
+            "token": token,
+            "news": readyNews
         }
 
         return jsonify(response_data), 200
