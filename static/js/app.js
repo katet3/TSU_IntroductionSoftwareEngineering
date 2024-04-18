@@ -71,7 +71,7 @@ window.onload = function () {
     // fetchRandomCountryNews();
     // checkNewsAsia();
     // fetchNotExistUserPOST();
-    // fetchEverythingNewsPUT();
+    fetchEverythingNewsPUT();
     // fetchExistUserPOST();
     // parserFromQAnswer(button);
     // fetchCategoryNews();
@@ -79,6 +79,7 @@ window.onload = function () {
     // fetchTechnologyNews();
     // sortRequest(globalKey);
     pageInit();
+    // fetchExistUserPOST();
     // checkNewsEuarasia();
     // checkNewsNorthAmerica();
     // checkNewsSouthAmerica();
@@ -115,7 +116,10 @@ const fetchEverythingNewsPUT = async () => {
             // console.log(newsEverything);
 
             // Получение значения куки sessionId
-            const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
+            // const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
+            const token = getCookie('token');
+            console.log(token);
+
 
             // Отправляем данные на backend
             const requestOptions = {
@@ -124,12 +128,8 @@ const fetchEverythingNewsPUT = async () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    sessionId: sessionId,
-                    answers: [
-                        { number: 1, description: 'Answer 1' },
-                        { number: 2, description: 'Answer 2' },
-                        // Добавьте остальные ответы по аналогии
-                    ],
+                    sessionId: token,
+                    answers: {"interests": ["technology", "science", "business", "cars"]},
                     articles: newsEverything
                 })
             };
@@ -177,15 +177,12 @@ const fetchNotExistUserPOST = async () => {
                 },
                 body: JSON.stringify({
                     articles: newsEverything,
-                    answers: [
-                        { number: 1, description: 'Answer 1' },
-                        { number: 2, description: 'Answer 2' },
-                        // Добавьте остальные ответы по аналогии
-                    ]
+                    answers: {"interests": ["technology", "science", "business", "cars"]}
                 })
             };
 
             const backendResponse = await fetch('/not-exist-user', requestOptions);
+            console.log(backendResponse);
             if (backendResponse.ok) {
                 console.log("POST NOT EXIST USER");
                 const responseData = await backendResponse.json();
@@ -226,8 +223,9 @@ const fetchExistUserPOST = async () => {
             }));
 
             // Получение значения куки sessionId
-            const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
-
+            // const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
+            const token = getCookie('token');
+            console.log(token);
             // Теперь отправляем данные на другой backend
             const requestOptions = {
                 method: 'POST',
@@ -235,17 +233,13 @@ const fetchExistUserPOST = async () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    sessionId: sessionId,
-                    answers: [
-                        { number: 1, description: 'Answer 1' },
-                        { number: 2, description: 'Answer 2' },
-                        // Добавьте остальные ответы по аналогии
-                    ],
+                    sessionId: token,
                     articles: newsEverything
                 })
             };
 
             const backendResponse = await fetch('/exist-user', requestOptions);
+            console.log(backendResponse);
             if (backendResponse.ok) {
                 console.log("POST EXIST USER");
                 const responseData = await backendResponse.json();
