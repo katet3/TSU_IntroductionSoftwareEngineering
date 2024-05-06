@@ -4,9 +4,11 @@ const sportsBtn = document.getElementById("sport");
 const scienceBtn = document.getElementById("science");
 const technologyBtn = document.getElementById("technology");
 
-
+let answers = []; // ответы на вопросы теста 
 
 /* переменные globalKey*/
+
+
 
 let key1 = "0949776200554a22badea2df909c83d5";
 let key2 = "3bee589e005540ba8930289586803eb4";
@@ -177,7 +179,7 @@ const fetchNotExistUserPOST = async () => {
                 },
                 body: JSON.stringify({
                     articles: newsEverything,
-                    answers: {"interests": ["technology", "science", "business", "cars"]}
+                    answers: answers
                 })
             };
 
@@ -1356,6 +1358,8 @@ function showSearchNews(articles) {
 }
 
 function parserFromQAnswer(button) {
+    let numberOfQuestions = 4;
+    let Choices = [["technology", "technology", "technology", "technology"], ["science", "science", "science", "science"], ["business", "business", "business", "business"], ["cars", "cars", "cars", "cars"]]; // вопросы для test.html
     var optionCard = button.closest('.option'); // Находим родительскую карточку опции
     var buttons = optionCard.querySelectorAll('.btnAnswer'); // Находим все кнопки в этой карточке
 
@@ -1369,7 +1373,37 @@ function parserFromQAnswer(button) {
     // Устанавливаем красный цвет фона только для текущей карточки опции
     optionCard.style.backgroundColor = '#841717';
     optionCard.style.color = "white";
-
+    
+    // Добовляем ответ в answers и меняем вопросы
+    if (answers.length == numberOfQuestions - 1) {
+        answers.push(button.innerText);
+        let cardParent = document.getElementById("card-parent");
+        let completetestButton = document.createElement("button"); // кнопка завершения теста
+        completetestButton.innerText = "Завершить Тест";
+        completetestButton.classList.add("btn", "justify-content-center", "mb-2", "btnTest", "mb-4");
+        let canceltestButton = document.createElement("button");// кнопка отмена теста
+        canceltestButton.innerText = "Назад";
+        canceltestButton.classList.add("btn", "justify-content-center", "mb-2", "btnTest", "mb-4");
+        canceltestButton.onclick = () => {window.location = '/';};
+        completetestButton.onclick = () => {fetchNotExistUserPOST().then(console.log(answers))};
+        cardParent.append(completetestButton); 
+        cardParent.append(canceltestButton);
+    }
+    else if (answers.length == numberOfQuestions) {
+        answers[3] = button.innerText; // можно ответ на последний вопрос менять
+    }
+    
+    else if (answers.length < numberOfQuestions - 1) {
+        answers.push(button.innerText);
+        currChoices = document.getElementsByClassName("card-text");
+        for (let i = 0; i < currChoices.length; i++) {
+            choice = currChoices[i];
+            choice.innerText = Choices[answers.length][i];
+        }
+    }
+    else {
+        console.log("SOMETHING WENT WRONG")
+    }
 }
 
 function getCookie(name) {
@@ -1406,9 +1440,9 @@ function pageInit() {
         // Добавляем обработчики для кнопок
         if (TakeTest) {
             TakeTest.addEventListener('click', () => {
-                console.log("дед умер");
-                fetchNotExistUserPOST();
-                console.log("дед умер");
+                // console.log("дед умер");
+                // fetchNotExistUserPOST();
+                // console.log("дед умер");
                 // Здесь должен быть код для parserFromQAnswer, но button не определен
                 // parserFromQAnswer(button);
             });

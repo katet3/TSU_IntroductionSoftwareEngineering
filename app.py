@@ -19,7 +19,7 @@ def start_docker_compose():
     try:
 
         # Установка текущего рабочего каталога в каталог с файлом docker-compose.yml
-        os.chdir(r'C:\Users\disan\Desktop\Git\TSU_IntroductionSoftwareEngineering\postgresql')
+        os.chdir(os.getcwd() + '/postgresql')
 
         # Запуск docker-compose up
         subprocess.run(["docker-compose", "up", "-d"], check=True)
@@ -148,7 +148,7 @@ def not_exist_user():
         # print(data)
         articles = data.get('articles', [])
         answers = data.get('answers', [])
-        # print(answers)
+        print(answers)
         
         # Генерация куки
         session_id = str(uuid.uuid4())
