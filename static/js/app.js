@@ -1380,14 +1380,17 @@ function parserFromQAnswer(button) {
         let cardParent = document.getElementById("card-parent");
         let completetestButton = document.createElement("button"); // кнопка завершения теста
         completetestButton.innerText = "Завершить Тест";
-        completetestButton.classList.add("btn", "justify-content-center", "mb-2", "btnTest", "mb-4");
+        completetestButton.classList.add("btn", "justify-content-center", "mb-2", "btnTest", "mb-4", 'mt-5', 'ms-2');
         let canceltestButton = document.createElement("button");// кнопка отмена теста
         canceltestButton.innerText = "Назад";
-        canceltestButton.classList.add("btn", "justify-content-center", "mb-2", "btnTest", "mb-4");
+        canceltestButton.classList.add("btn", "justify-content-center", "mb-2", "btnTest", "mb-4", 'mt-5');
         canceltestButton.onclick = () => {window.location = '/';};
         completetestButton.onclick = () => {fetchNotExistUserPOST().then(console.log(answers))};
-        cardParent.append(completetestButton); 
-        cardParent.append(canceltestButton);
+        let microParent = document.createElement("div");
+        microParent.append(completetestButton); 
+        microParent.append(canceltestButton);
+        microParent.classList.add('d-flex', 'flex-row-reverse');
+        cardParent.append(microParent); 
     }
     else if (answers.length == numberOfQuestions) {
         answers[3] = button.innerText; // можно ответ на последний вопрос менять
