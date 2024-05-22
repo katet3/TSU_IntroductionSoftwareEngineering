@@ -204,6 +204,10 @@ def exist_user():
 def test():
     return render_template('test.html')
 
+@app.route('/word2VekNews', methods=["GET"])
+def word2VekNews():
+    return render_template('word2VekNews.html')
+
 
 # @app.route('/search', methods=['GET'])
 # def search():

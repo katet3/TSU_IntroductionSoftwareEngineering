@@ -132,3 +132,51 @@ a:hover {
     background: none;
     cursor: pointer;
 }
+.btnAnswer1 {
+    all:inherit;
+    cursor: pointer;
+}
+
+.option2 {
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: black;
+}
+
+.btnAnswer2 {
+    all:inherit;
+    cursor: pointer;
+}
+
+.option3 {
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: black;
+}
+
+.btnAnswer3 {
+    all:inherit;
+    cursor: pointer;
+}
+
+.option4 {
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: black;
+}
+
+.btnAnswer4 {
+    all:inherit;
+    cursor: pointer;
+}
+
+.option5 {
+    border: 1px solid gray;
+    border-radius: 10px;
+    color: black;
+}
+
+.btnAnswer5 {
+    all:inherit;
+    cursor: pointer;
+}
