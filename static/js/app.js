@@ -23,7 +23,7 @@ let key12 = "d001becc9cfb452081163ddcf5d52aef";
 let key13 = "c6f11d573a1c4ff68f56e40c141f1e21";
 let key14 = "c8b760081b79445ab19ca08699d8c1a1";
 
-const globalKey = key2;
+const globalKey = key3;
 
 
 //для отображения Top Headlines и Top1 news
@@ -42,6 +42,10 @@ let newsScience = [];
 let newsTechnology = [];
 
 let newsEverything = [];
+
+
+
+
 
 
 // trending news - top-4 - main page 
@@ -63,38 +67,204 @@ const EVERYTHING = `https://newsapi.org/v2/everything?q=a&pageSize=50&apiKey=${g
 
 
 
+const fetchNotExistUserPOST = async () => {
+    try {
+        const response = await fetch(EVERYTHING);
 
-/* Загрузка данных на страницу MAIN */
+        if (response.status >= 200 && response.status < 300) {
+            const myJson = await response.json();
+            const newsEverything = myJson.articles.map(article => ({
+                source: article.source,
+                author: article.author,
+                title: removeInvalidCharacters(article.title),
+                description: removeInvalidCharacters(article.description),
+                url: article.url,
+                urlToImage: article.urlToImage,
+                publishedAt: article.publishedAt,
+                content: removeInvalidCharacters(article.content)
+            }));
 
-window.onload = function () {
-    // fetchHeadlines();
-    // fetchRandomCountryNews();
-    // checkNewsAsia();
-    // fetchNotExistUserPOST();
-    fetchEverythingNewsPUT();
-    // fetchExistUserPOST();
-    // parserFromQAnswer(button);
-    // fetchCategoryNews();
-    // fetchScienseNews();
-    // fetchTechnologyNews();
-    // sortRequest(globalKey);
-    pageInit();
-    // fetchExistUserPOST();
-    // checkNewsEuarasia();
-    // checkNewsNorthAmerica();
-    // checkNewsSouthAmerica();
-    // checkNewsEurope();
-};
+            // Получение interests из localStorage
+            const interests = JSON.parse(localStorage.getItem('testResults')) || { interests: [] };
 
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    articles: newsEverything,
+                    answers: interests
+                })
+            };
 
+            const backendResponse = await fetch('/not-exist-user', requestOptions);
+            console.log(backendResponse);
+            if (backendResponse.ok) {
+                console.log("POST NOT EXIST USER");
+                const responseData = await backendResponse.json();
+                console.log('Data successfully sent to the backend');
+                console.log(`Your token: "${responseData.token}", news:`, responseData.news);
+                console.log(`YoUr SeSsIoN iD: "${responseData.sessionId}"`);
+                const expirationDate = new Date();
+                expirationDate.setFullYear(expirationDate.getFullYear() + 10);
+                document.cookie = `token=${responseData.token}; =${expirationDate.toUTCString()}; path=/`;
 
+                window.location.href = '/';
 
-
-function removeInvalidCharacters(data) {
-    // Удаляем недопустимые символы из строки и заменяем ковычки ’ и ‘ на обычные ковычки '
-    return data.replace(/[’‘\r\n]/g, '').replace(/’|‘/g, "'").replace(/\r|\n/g, ' ');
+                console.log(responseData.news);
+            } else {
+                console.error('Error sending data to the backend:', backendResponse.status, backendResponse.statusText);
+            }
+        } else {
+            console.error(`Error fetching data: ${response.status} - ${response.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
 }
 
+function showMyNews() {
+    const myNews = JSON.parse(localStorage.getItem('myNews'));
+    console.log(myNews);
+    console.log("fun");
+
+    if (document.querySelector(".titleBusinessNews")) {
+        console.log("YES");
+    }
+
+    if (myNews.length > 0) {
+        const titles = document.querySelectorAll('.titleBusinessNews');
+        const descryptions = document.querySelectorAll('.descryptionBusinessNews');
+        const authorAndSources = document.querySelectorAll('.authorAndSourceBussinessNews');
+        const dates = document.querySelectorAll('.dateBussinessNews');
+        const imgs = document.querySelectorAll('.imgBusiness');
+        const links = document.querySelectorAll('.linkBusiness');
+
+        for (let i = 0; i < 15; i++) {
+            if (myNews[i]) {
+                if (myNews[i].title && myNews[i].description) {
+
+                    titles[i].innerHTML = myNews[i].title;
+                    descryptions[i].innerHTML = myNews[i].description;
+
+
+
+                    if (myNews[i].url) {
+                        links[i].href = myNews[i].url;
+                    }
+
+                    if (myNews[i].urlToImage != null) {
+                        imgs[i].src = myNews[i].urlToImage;
+                    } else {
+                        imgs[i].style.display = "none";
+                    }
+
+
+                    let authorSourceText = '';
+                    if (myNews[i].author) {
+                        authorSourceText += "Author: " + myNews[i].author;
+                    }
+                    if (myNews[i].source && myNews[i].source.name) {
+                        if (authorSourceText) {
+                            authorSourceText += ' - ';
+                        }
+                        authorSourceText += myNews[i].source.name;
+                    }
+
+                    if (authorSourceText) {
+                        authorAndSources[i].innerHTML = authorSourceText;
+                    } else {
+                        authorAndSources[i].style.display = "none";
+                    }
+
+                    if (myNews[i].publishedAt) {
+                        dates[i].innerHTML = myNews[i].publishedAt.split('T')[0];
+                    }
+
+                } else {
+                    continue;
+                }
+            }
+        }
+
+    } else {
+        console.log("Нет данных для отображения");
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (window.location.pathname === '/word2VekNews') {
+        showMyNews();
+    }
+});
+
+
+/// MY NEWS
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('showINews').addEventListener('click', async (event) => {
+        event.preventDefault(); // Предотвращаем стандартное действие ссылки
+        await fetchExistUserPOST(); // Ждем выполнения функции
+        window.location.href = '/word2VekNews'; // Переходим на страницу после выполнения функции
+    });
+})
+
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Проверяем, что находимся на странице main.html
+    if (window.location.pathname === '/more') {
+        sortRequest(globalKey);
+    }
+});
+
+
+
+
+async function fetchExistUserPOST() {
+    try {
+        const newsResponse = await fetch(EVERYTHING);
+
+        if (newsResponse.ok) {
+            const newsJson = await newsResponse.json();
+            const newsEverything = newsJson.articles.map(article => ({
+                source: article.source,
+                author: article.author,
+                title: removeInvalidCharacters(article.title),
+                description: removeInvalidCharacters(article.description),
+                url: article.url,
+                urlToImage: article.urlToImage,
+                publishedAt: article.publishedAt,
+                content: removeInvalidCharacters(article.content)
+            }));
+
+            const token = getCookie('token');
+            const requestOptions = {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    sessionId: token,
+                    articles: newsEverything
+                })
+            };
+
+            const backendResponse = await fetch('/exist-user', requestOptions);
+            if (backendResponse.ok) {
+                const responseData = await backendResponse.json();
+                const myNews = JSON.parse(responseData.news).filtered_news;
+
+                localStorage.setItem('myNews', JSON.stringify(myNews));
+            } else {
+                console.error('Error sending data to the backend:', backendResponse.status, backendResponse.statusText);
+            }
+        } else {
+            console.error(`Error fetching news data: ${newsResponse.status} - ${newsResponse.statusText}`);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 const fetchEverythingNewsPUT = async () => {
     try {
         // Получение новостей из NEWS API
@@ -120,6 +290,8 @@ const fetchEverythingNewsPUT = async () => {
             const token = getCookie('token');
             console.log(token);
 
+            const interests = JSON.parse(localStorage.getItem('testResults')) || { interests: [] };
+
 
             // Отправляем данные на backend
             const requestOptions = {
@@ -129,7 +301,7 @@ const fetchEverythingNewsPUT = async () => {
                 },
                 body: JSON.stringify({
                     sessionId: token,
-                    answers: {"interests": ["technology", "science", "business", "cars"]},
+                    answers: interests,
                     articles: newsEverything
                 })
             };
@@ -144,6 +316,8 @@ const fetchEverythingNewsPUT = async () => {
             } else {
                 console.log('Error sending data to the backend');
             }
+
+            window.location.href = '/';
         } else {
             console.log(response.status, response.statusText);
         }
@@ -152,109 +326,112 @@ const fetchEverythingNewsPUT = async () => {
     }
 }
 
+/* Загрузка данных на страницу MAIN */
 
-const fetchNotExistUserPOST = async () => {
-    try {
-        const response = await fetch(EVERYTHING);
+window.onload = function () {
+    fetchCategoryNews();
+    fetchScienseNews();
+    fetchTechnologyNews();
+    pageInit();
+    fetchHeadlines();
+    fetchRandomCountryNews();
+};
 
-        if (response.status >= 200 && response.status < 300) {
-            const myJson = await response.json();
-            const newsEverything = myJson.articles.map(article => ({
-                source: article.source,
-                author: article.author,
-                title: removeInvalidCharacters(article.title),
-                description: removeInvalidCharacters(article.description),
-                url: article.url,
-                urlToImage: article.urlToImage,
-                publishedAt: article.publishedAt,
-                content: removeInvalidCharacters(article.content)
-            }));
 
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    articles: newsEverything,
-                    answers: {"interests": ["technology", "science", "business", "cars"]}
-                })
-            };
 
-            const backendResponse = await fetch('/not-exist-user', requestOptions);
-            console.log(backendResponse);
-            if (backendResponse.ok) {
-                console.log("POST NOT EXIST USER");
-                const responseData = await backendResponse.json();
-                console.log('Data successfully sent to the backend');
-                console.log(`Your token: "${responseData.token}", news:`, responseData.news);
-                console.log(`YoUr SeSsIoN iD: "${responseData.sessionId}"`);
-                const expirationDate = new Date();
-                expirationDate.setFullYear(expirationDate.getFullYear() + 10);
-                document.cookie = `token=${responseData.token}; =${expirationDate.toUTCString()}; path=/`;
-            } else {
-                console.error('Error sending data to the backend:', backendResponse.status, backendResponse.statusText);
-            }
-        } else {
-            console.error(`Error fetching data: ${response.status} - ${response.statusText}`);
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
+const interpretation = {
+    "Coffee": "energy",
+    "Tea": "traditions",
+    "Juice": "youth",
+    "Soda": "fun",
+    "Nature painting": "calm",
+    "Abstract drawing": "creativity",
+    "Portrait of a person": "sociability",
+    "Cityscape": "development",
+    "Tracksuit": "activity",
+    "Business suit": "success",
+    "Casual clothes": "comfort",
+    "Casual style clothes": "freedom",
+    "Pizza": "IT",
+    "Salad": "health",
+    "Steak": "luxury",
+    "Pasta": "romanticism",
+    "Horse": "nature",
+    "Car": "technology",
+    "Table": "work",
+    "Carpet": "coziness"
 }
 
+let interests = { "interests": [] }
 
-const fetchExistUserPOST = async () => {
-    try {
-        // Получение новостей из NEWS API
-        const newsResponse = await fetch(EVERYTHING);
 
-        if (newsResponse.ok) {
-            const newsJson = await newsResponse.json();
-            const newsEverything = newsJson.articles.map(article => ({
-                source: article.source,
-                author: article.author,
-                title: removeInvalidCharacters(article.title),
-                description: removeInvalidCharacters(article.description),
-                url: article.url,
-                urlToImage: article.urlToImage,
-                publishedAt: article.publishedAt,
-                content: removeInvalidCharacters(article.content)
-            }));
+document.addEventListener('DOMContentLoaded', () => {
+    const TEST_END = document.querySelector('.endTest');
 
-            // Получение значения куки sessionId
-            // const sessionId = document.cookie.replace(/(?:(?:^|.*;\s*)sessionId\s*=\s*([^;]*).*$)|^.*$/, "$1");
+    if (TEST_END) {
+        TEST_END.addEventListener('click', async () => {
+            console.log("END TEST");
+            let count = 0;
+
+            let cards = [];
+            for (let i = 1; i <= 5; i++) {
+                cards.push(document.querySelectorAll(`.option${i}`))
+            }
+
+
+            let answers = [];
+
+            for (let card of cards) {
+                for (let quesion of card) {
+                    // console.log(quesion);
+                    if (quesion.style.backgroundColor != '') {
+                        answers.push(document.getElementById(`${count}`).innerHTML)
+                    }
+                    count++;
+                }
+            }
+
+            answers = answers.map(item => interpretation[item])
+
+            interests.interests = answers;
+            console.log(interests);
+
+            // Сохранение результатов в localStorage
+            localStorage.setItem('testResults', JSON.stringify(interests));
+
             const token = getCookie('token');
-            console.log(token);
-            // Теперь отправляем данные на другой backend
-            const requestOptions = {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    sessionId: token,
-                    articles: newsEverything
-                })
-            };
-
-            const backendResponse = await fetch('/exist-user', requestOptions);
-            console.log(backendResponse);
-            if (backendResponse.ok) {
-                console.log("POST EXIST USER");
-                const responseData = await backendResponse.json();
-                console.log('Data successfully sent to the backend');
-                console.log(`Your token: "${responseData.token}", news:`, responseData.news);
+            const hasTokenCookie = token !== undefined;
+            if (hasTokenCookie) {
+                await fetchEverythingNewsPUT();
             } else {
-                console.error('Error sending data to the backend:', backendResponse.status, backendResponse.statusText);
+                await fetchNotExistUserPOST();
             }
-        } else {
-            console.error(`Error fetching news data: ${newsResponse.status} - ${newsResponse.statusText}`);
-        }
-    } catch (error) {
-        console.error('Error:', error);
+
+            window.location.href = '/';
+        });
+    } else {
+        console.error("Not found el TEST_END");
     }
+});
+
+
+
+
+
+
+
+
+function removeInvalidCharacters(data) {
+    // Удаляем недопустимые символы из строки и заменяем ковычки ’ и ‘ на обычные ковычки '
+    return data.replace(/[’‘\r\n]/g, '').replace(/’|‘/g, "'").replace(/\r|\n/g, ' ');
 }
+
+
+
+
+
+
+
 
 
 
@@ -1087,7 +1264,7 @@ function sortRequest(APIKEY) {
                 newsDataArr = myJson.articles;
                 console.log(newsDataArr);
                 showSortNews(newsDataArr);
-                // console.log(newsDataArr);
+                console.log(newsDataArr);
             } else {
                 console.log(response.status, response.statusText);
                 return;
@@ -1355,12 +1532,12 @@ function showSearchNews(articles) {
 
 }
 
-function parserFromQAnswer(button) {
-    var optionCard = button.closest('.option'); // Находим родительскую карточку опции
-    var buttons = optionCard.querySelectorAll('.btnAnswer'); // Находим все кнопки в этой карточке
+function parserFromQAnswer1(button) {
+    var optionCard = button.closest('.option1'); // Находим родительскую карточку опции
+    var buttons = optionCard.querySelectorAll('.btnAnswer1'); // Находим все кнопки в этой карточке
 
     // Сначала сбрасываем цвет фона у всех карточек опций
-    var allOptionCards = document.querySelectorAll('.option');
+    var allOptionCards = document.querySelectorAll('.option1');
     allOptionCards.forEach(function (card) {
         card.style.backgroundColor = '';
         card.style.color = '';
@@ -1371,12 +1548,81 @@ function parserFromQAnswer(button) {
     optionCard.style.color = "white";
 
 }
+function parserFromQAnswer2(button) {
+    var optionCard = button.closest('.option2'); // Находим родительскую карточку опции
+    var buttons = optionCard.querySelectorAll('.btnAnswer2'); // Находим все кнопки в этой карточке
 
+    // Сначала сбрасываем цвет фона у всех карточек опций
+    var allOptionCards = document.querySelectorAll('.option2');
+    allOptionCards.forEach(function (card) {
+        card.style.backgroundColor = '';
+        card.style.color = '';
+    });
+
+    // Устанавливаем красный цвет фона только для текущей карточки опции
+    optionCard.style.backgroundColor = '#841717';
+    optionCard.style.color = "white";
+
+}
+function parserFromQAnswer3(button) {
+    var optionCard = button.closest('.option3'); // Находим родительскую карточку опции
+    var buttons = optionCard.querySelectorAll('.btnAnswer3'); // Находим все кнопки в этой карточке
+
+    // Сначала сбрасываем цвет фона у всех карточек опций
+    var allOptionCards = document.querySelectorAll('.option3');
+    allOptionCards.forEach(function (card) {
+        card.style.backgroundColor = '';
+        card.style.color = '';
+    });
+
+    // Устанавливаем красный цвет фона только для текущей карточки опции
+    optionCard.style.backgroundColor = '#841717';
+    optionCard.style.color = "white";
+
+}
+function parserFromQAnswer4(button) {
+    var optionCard = button.closest('.option4'); // Находим родительскую карточку опции
+    var buttons = optionCard.querySelectorAll('.btnAnswer4'); // Находим все кнопки в этой карточке
+
+    // Сначала сбрасываем цвет фона у всех карточек опций
+    var allOptionCards = document.querySelectorAll('.option4');
+    allOptionCards.forEach(function (card) {
+        card.style.backgroundColor = '';
+        card.style.color = '';
+    });
+
+    // Устанавливаем красный цвет фона только для текущей карточки опции
+    optionCard.style.backgroundColor = '#841717';
+    optionCard.style.color = "white";
+
+}
+function parserFromQAnswer5(button) {
+    var optionCard = button.closest('.option5'); // Находим родительскую карточку опции
+    var buttons = optionCard.querySelectorAll('.btnAnswer5'); // Находим все кнопки в этой карточке
+
+    // Сначала сбрасываем цвет фона у всех карточек опций
+    var allOptionCards = document.querySelectorAll('.option5');
+    allOptionCards.forEach(function (card) {
+        card.style.backgroundColor = '';
+        card.style.color = '';
+    });
+
+    // Устанавливаем красный цвет фона только для текущей карточки опции
+    optionCard.style.backgroundColor = '#841717';
+    optionCard.style.color = "white";
+
+}
 function getCookie(name) {
     const value = `; ${document.cookie}`;
     const parts = value.split(`; ${name}=`);
     if (parts.length === 2) return parts.pop().split(';').shift();
 }
+
+
+
+
+
+
 
 function pageInit() {
     // Проверяем наличие куки в браузере
@@ -1389,32 +1635,38 @@ function pageInit() {
     const yesCookieDiv = document.getElementById('yesCookie');
     const TakeTest = document.getElementById('taketest');
     const showINews = document.getElementById('showINews');
+    const reTest = document.getElementById('reTest');
 
     // Отображаем или скрываем блоки на основе наличия куки
     if (hasTokenCookie) {
         yesCookieDiv.style.display = 'block';
         noCookieDiv.style.display = 'none';
-        if (showINews) {
-            showINews.addEventListener('click', () => {
-                fetchExistUserPOST();
-            });
-        }
+        // if (showINews) {
+        //     showINews.addEventListener('click', () => {
+        //         // fetchExistUserPOST();
+        //     });
+        // }
+        // if (reTest) {
+        //     reTest.addEventListener('click', () => {
+        //         console.log("ded put");
+        //         // fetchEverythingNewsPUT();
+
+        //         // Переход на страницу с тестом
+        //     })
+        // }
     } else {
         yesCookieDiv.style.display = 'none';
         noCookieDiv.style.display = 'block';
 
-        // Добавляем обработчики для кнопок
-        if (TakeTest) {
-            TakeTest.addEventListener('click', () => {
-                console.log("дед умер");
-                fetchNotExistUserPOST();
-                console.log("дед умер");
-                // Здесь должен быть код для parserFromQAnswer, но button не определен
-                // parserFromQAnswer(button);
-            });
-        } else {
-            console.error('Элемент с ID taketest не найден.');
-        }
+        // // Добавляем обработчики для кнопок
+        // if (TakeTest) {
+        //     TakeTest.addEventListener('click', () => {
+        //         console.log("ded ");
+        //         // Переход на test
+        //     });
+        // } else {
+        //     console.error('Элемент с ID taketest не найден.');
+        // }
     }
 
     // // Добавляем обработчики для кнопок
