@@ -1,0 +1,23 @@
+version: '3.8'
+services:
+  web:
+    build: ./web
+    ports:
+      - "9999:9999"
+    depends_on:
+      - db
+    environment:
+      - DATABASE_HOST=db
+      - DATABASE_PORT=5432
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=12345678
+      - DATABASE_NAME=postgres
+
+  db:
+    build: ./postgresql
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345678
+    ports:
+      - "5432:5432"

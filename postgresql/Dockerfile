@@ -9,6 +9,6 @@ FROM postgres:latest
 WORKDIR /docker-entrypoint-initdb.d
 
 # Копирование скрипта инициализации
-# COPY init_db.sql /docker-entrypoint-initdb.d/
+COPY init_db.sql /docker-entrypoint-initdb.d/init_db.sql
 
 # Необходимые настройки уже встроены в базовый образ PostgreSQL

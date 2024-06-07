@@ -10,6 +10,8 @@ import nltk
 import word2vec
 from nltk.stem import WordNetLemmatizer
 from sklearn.metrics.pairwise import cosine_similarity
+import os
+
 
 nltk.download('wordnet')
 nltk.download('omw-1.4')
@@ -17,13 +19,12 @@ nltk.download('omw-1.4')
 
 def connect_db():
     return psycopg2.connect(
-        dbname="postgres",  # Имя базы данных
-        user="postgres",  # Имя пользователя
-        password="12345678",  # Пароль
-        host="localhost",  # Адрес сервера, localhost для локального сервера
-        port="5432"  # Порт подключения
+        dbname=os.getenv("DATABASE_NAME", "postgres"),
+        user=os.getenv("DATABASE_USER", "postgres"),
+        password=os.getenv("DATABASE_PASSWORD", "12345678"),
+        host=os.getenv("DATABASE_HOST", "localhost"),
+        port=os.getenv("DATABASE_PORT", "5432")
     )
-
 def get_user_interests(token):
     conn = None
     try:
